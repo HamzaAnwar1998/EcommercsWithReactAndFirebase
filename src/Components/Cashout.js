@@ -58,7 +58,7 @@ export const Cashout = (props) => {
                                         dispatch({ type: 'EMPTY' })
                                         setSuccessMsg('Your order has been placed successfully. Thanks for visiting us. You will be redirected to home page after 5 seconds');
                                         setTimeout(() => {
-                                            window.location.reload('/');
+                                            history.push('/')
                                         }, 5000)
                                     }).catch(err => setError(err.message))
                                 })
