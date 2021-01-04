@@ -56,7 +56,10 @@ export const Cashout = (props) => {
                                         setCell('');
                                         setAddress('');
                                         dispatch({ type: 'EMPTY' })
-                                        setSuccessMsg('Your order has been placed successfully. Thanks for visiting us');
+                                        setSuccessMsg('Your order has been placed successfully. Thanks for visiting us. You will be redirected to home page after 5 seconds');
+                                        setTimeout(() => {
+                                            window.location.reload('/');
+                                        }, 5000)
                                     }).catch(err => setError(err.message))
                                 })
                             }
@@ -75,7 +78,7 @@ export const Cashout = (props) => {
                 <br />
                 <h2>Cashout Details</h2>
                 <br />
-                {successMsg && <div className='success-msg'>{successMsg} <Link to="/" className='home-link'>Return to HOME</Link></div>}
+                {successMsg && <div className='success-msg'>{successMsg}</div>}
                 <form autoComplete="off" className='form-group' onSubmit={cashoutSubmit}>
                     <label htmlFor="name">Name</label>
                     <input type="text" className='form-control' required
