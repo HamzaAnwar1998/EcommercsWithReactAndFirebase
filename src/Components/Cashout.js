@@ -3,7 +3,6 @@ import { auth, db } from '../Config/Config'
 import { CartContext } from '../Global/CartContext'
 import { Navbar } from './Navbar';
 import { useHistory } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 
 export const Cashout = (props) => {
 
@@ -47,24 +46,13 @@ export const Cashout = (props) => {
                     BuyerPayment: totalPrice,
                     BuyerQuantity: totalQty
                 }).then(() => {
-                    db.collection('Buyer-info ' + user.uid).onSnapshot(snapshot => {
-                        let changes = snapshot.docChanges();
-                        changes.forEach(change => {
-                            if (change.type === 'added') {
-                                shoppingCart.forEach(cart => {
-                                    db.collection(user.uid + change.doc.id).add(cart).then(() => {
-                                        setCell('');
-                                        setAddress('');
-                                        dispatch({ type: 'EMPTY' })
-                                        setSuccessMsg('Your order has been placed successfully. Thanks for visiting us. You will be redirected to home page after 5 seconds');
-                                        setTimeout(() => {
-                                            history.push('/')
-                                        }, 5000)
-                                    }).catch(err => setError(err.message))
-                                })
-                            }
-                        })
-                    })
+                    setCell('');
+                    setAddress('');
+                    dispatch({ type: 'EMPTY' })
+                    setSuccessMsg('Your order has been placed successfully. Thanks for visiting us. You will be redirected to home page after 5 seconds');
+                    setTimeout(() => {
+                        history.push('/')
+                    }, 5000)
                 }).catch(err => setError(err.message))
             }
         })
@@ -73,7 +61,6 @@ export const Cashout = (props) => {
     return (
         <>
             <Navbar user={props.user} />
-            {error && <span>{error}</span>}
             <div className='container'>
                 <br />
                 <h2>Cashout Details</h2>
