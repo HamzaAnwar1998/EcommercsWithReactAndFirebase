@@ -48,7 +48,7 @@ export const AddProducts = () => {
     }
 
     return (
-        <div className='container'>
+        <div className='container add-product-container'>
             <br />
             <h2>ADD PRODUCTS</h2>
             <hr />

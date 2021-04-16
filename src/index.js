@@ -6,8 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
-
-  <App />,
+  <div className = "app">
+    <App />
+  </div>,
   
   document.getElementById('root')
 );
