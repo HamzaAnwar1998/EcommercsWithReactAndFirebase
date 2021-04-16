@@ -80,11 +80,12 @@ export const Cart = ({ user }) => {
                             <span>{totalQty}</span>
                         </div>
                         <Link to='cashout' className='cashout-link'>
-                            <button className='btn btn-success btn-md' style={{ marginTop: 5 + 'px' }}>
+                            <button className='btn btn-outline-success btn-md' style={{ marginTop: 5 + 'px' }}>
                                 Cash on delivery
                         </button>
                         </Link>
                     </div>}
+
                 </div>
             </>
         </>
