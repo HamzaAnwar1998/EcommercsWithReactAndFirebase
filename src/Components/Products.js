@@ -5,13 +5,13 @@ import { displayNumber, mobileTypeList } from '../Common';
 import { Link } from 'react-router-dom'
 
 
-export const Products = () => {
+export const Products = ({userId}) => {
     
     const [category, setCategory] = useState('All');
 
     const [productCopy, setProductCopy] = useState([]);
     
-    const { products, productTypes } = useContext(ProductsContext);
+    const { products, productTypes, userProducts } = useContext(ProductsContext);
     
     const { dispatch, shoppingCart } = useContext(CartContext);
 
@@ -20,6 +20,11 @@ export const Products = () => {
     }
 
     useEffect(()=> {
+        products.map(p => {
+            const checkAdd  = userProducts.find(up => up.productId === p.ProductID)
+            if(checkAdd) p.isAdded = true;
+            else p.isAdded = false;
+        })
         if(category === 'All'){
             setProductCopy([...products]);
         }
@@ -28,7 +33,7 @@ export const Products = () => {
             const clone = products.filter(p => p.ProductType === category);
             setProductCopy([...clone]);
         }
-    }, [category])
+    }, [category, userProducts.length])
     
     
     
@@ -54,13 +59,13 @@ export const Products = () => {
                         }
 
 
-                        {productTypes && productTypes.length ? productTypes.map(type => 
+                        {productTypes && productTypes.length ? productTypes.map((type, i) => 
                             category !== type.Type ? 
-                            <li className="nav-item active" key = {type.Type}>
+                            <li className="nav-item active" key = {i}>
                                 <a className="nav-link btn btn-circle btn-secondary" type = "button" onClick = {(e) => filterByType(type.Type)} style = {{color: 'white', marginRight: '15px'}}>{type.Type}</a>
                             </li>
                             :
-                            <li className="nav-item active" key = {type.Type}>
+                            <li className="nav-item active" key = {i}>
                                 <a className="nav-link btn btn-circle btn-success" type = "button" onClick = {(e) => filterByType(type.Type)} style = {{color: 'white', marginRight: '15px'}}>{type.Type}</a>
                             </li>
                         )
@@ -86,10 +91,10 @@ export const Products = () => {
                         <div className='product-price'>
                             {displayNumber(product.ProductPrice)} VNĐ
                     </div>
-                        {shoppingCart.find(c => c.ProductID === product.ProductID) ? 
-                            <button  type = "button" className=' addcart-btn btn btn-secondary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product })}>ADD TO CART</button>
+                        {shoppingCart.find(c => c.ProductID === product.ProductID) || product.isAdded ? 
+                            <button  type = "button" className=' addcart-btn btn btn-secondary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
                             :
-                            <button  type = "button" className=' addcart-btn btn btn-outline-primary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product })}>ADD TO CART</button>
+                            <button  type = "button" className=' addcart-btn btn btn-outline-primary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
                         }
                     </div>
                     

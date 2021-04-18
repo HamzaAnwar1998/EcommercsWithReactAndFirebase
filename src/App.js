@@ -16,6 +16,7 @@ export class App extends Component {
 
     state = {
         user: null,
+        userId: null
     }
 
     componentDidMount() {
@@ -25,6 +26,7 @@ export class App extends Component {
             if (user) {
                 db.collection('SignedUpUsersData').doc(user.uid).get().then(snapshot => {
                     this.setState({
+                        userId: user.uid,
                         user: snapshot.data().Name
                     })
                 })
@@ -45,7 +47,7 @@ export class App extends Component {
                     <BrowserRouter>
                         <Switch>
                             {/* home */}
-                            <Route exact path='/' component={() => <Home user={this.state.user} />} />
+                            <Route exact path='/' component={() => <Home user={this.state.user} userId ={this.state.userId}/>} />
                             {/* signup */}
                             <Route path="/signup" component={() => <Signup history = {this.state} user={this.state.user} />} />
                             {/* login */}
@@ -53,7 +55,7 @@ export class App extends Component {
                             {/* cart products */}
                             <Route path="/cartproducts" component={() => <Cart user={this.state.user} />} />
                             {/* add products */}
-                            <Route path="/addproducts" component={() => <AddProducts user={this.state.user} />} />
+                            <Route path="/addproducts" component={() => <AddProducts user={this.state.user} userId ={this.state.userId} />} />
                             {/* add product type */}
                             <Route path="/addproduct-type" component={() => <AddProductType user={this.state.user} />} />
                             {/* cashout */}

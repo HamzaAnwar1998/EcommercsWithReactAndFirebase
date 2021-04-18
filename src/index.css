@@ -365,3 +365,11 @@ h1 {
     flex-direction: column;
     min-height: 100vh;
 }
+
+.toastInfo{
+    background-color:  #2e003e !important;
+}
+
+.toastError{
+    background-color: #fe4a49 !important;
+}

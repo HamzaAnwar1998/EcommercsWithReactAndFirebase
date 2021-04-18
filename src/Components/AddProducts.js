@@ -6,8 +6,7 @@ import { ProductsContext } from '../Global/ProductsContext';
 
 
 
-export const AddProducts = ({user}) => {
-
+export const AddProducts = ({user, userId}) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState(0);
     const [productImg, setProductImg] = useState('');
@@ -74,6 +73,7 @@ export const AddProducts = ({user}) => {
             setError('');
             document.getElementById('file').value = '';
         }).catch(err => setError(err.message));
+        history.push('/');
     }
 
     return (

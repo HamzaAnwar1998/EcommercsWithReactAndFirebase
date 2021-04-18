@@ -31,7 +31,7 @@ export const AddProductType = ({user}) => {
         e.preventDefault();
         const check = productTypes.find(t => t.Type === productType); 
         if(check){
-            toast.info('This product type is already existed', {
+            toast.error('This product type is already existed', {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,

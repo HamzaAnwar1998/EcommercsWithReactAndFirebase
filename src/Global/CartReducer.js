@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { db } from '../Config/Config';
 
 toast.configure();
 
@@ -15,7 +16,6 @@ export const CartReducer = (state, action) => {
     switch (action.type) {
 
         case 'ADD_TO_CART':
-
             const check = shoppingCart.find(product => product.ProductID === action.id);
             if (check) {
                 toast.info('this product is already in your cart', {
@@ -26,6 +26,7 @@ export const CartReducer = (state, action) => {
                     pauseOnHover: false,
                     draggable: false,
                     progress: undefined,
+                    className :'toastInfo'
                 });
                 return state;
             }
@@ -35,6 +36,10 @@ export const CartReducer = (state, action) => {
                 product['TotalProductPrice'] = product.ProductPrice * product.qty;
                 updatedQty = totalQty + 1;
                 updatedPrice = totalPrice + product.ProductPrice;
+                db.collection('UserProduct').add({
+                    ProductId: action.id,
+                    UserId: action.userId,
+                }).then(() => {}).catch(err => console.log(err.message));
                 return {
                     shoppingCart: [product, ...shoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
                 }

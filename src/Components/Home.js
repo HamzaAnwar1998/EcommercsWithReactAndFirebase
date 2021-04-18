@@ -4,7 +4,7 @@ import { Products } from './Products'
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/Config'
 
-export const Home = ({ user }) => {
+export const Home = ({ user, userId }) => {
 
     const history = useHistory();
 
@@ -23,7 +23,7 @@ export const Home = ({ user }) => {
                 <Navbar user={user} />
             </div>
             <div className="home-item" style = {{flex : 8}}>
-                <Products />
+                <Products userId = {userId} />
             </div>
         </div>
     )
