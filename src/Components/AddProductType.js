@@ -1,5 +1,5 @@
 import React, { useState, useEffect , useContext} from 'react'
-import { storage, db, auth } from '../Config/Config';
+import { db, auth } from '../Config/Config';
 import { Navbar } from '../Components/Navbar';
 import { useHistory } from 'react-router-dom';
 import { ProductsContext } from '../Global/ProductsContext';
@@ -22,10 +22,6 @@ export const AddProductType = ({user}) => {
             }
         })
     })
-
-    const types = ['image/png', 'image/jpeg']; // image types
-
-    
     // add product
     const addProductType = (e) => {
         e.preventDefault();

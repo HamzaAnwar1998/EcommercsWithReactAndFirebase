@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ProductsContext } from '../Global/ProductsContext'
 import { CartContext } from '../Global/CartContext'
-import { displayNumber, mobileTypeList } from '../Common';
+import { displayNumber } from '../Common';
 import { Link } from 'react-router-dom'
 
 
@@ -25,6 +25,7 @@ export const Products = ({userId}) => {
             const checkAdd  = userProducts.find(up => (up.productId === p.ProductID && userId === up.userId))
             if(checkAdd) p.isAdded = true;
             else p.isAdded = false;
+            return p;
         })
         if(category === 'All'){
             setProductCopy([...products]);

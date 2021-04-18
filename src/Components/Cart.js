@@ -14,7 +14,7 @@ import { ProductsContext } from '../Global/ProductsContext';
 export const Cart = ({ user, userId }) => {
 
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
-    const { products, productTypes, userProducts } = useContext(ProductsContext);
+    const { products, userProducts } = useContext(ProductsContext);
 
     const history = useHistory();
 

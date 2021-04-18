@@ -1,5 +1,5 @@
 import React, { useState, useEffect , useContext} from 'react'
-import { storage, db, auth } from '../Config/Config';
+import { db, auth } from '../Config/Config';
 import { Navbar } from '../Components/Navbar';
 import { useHistory } from 'react-router-dom';
 import { ProductsContext } from '../Global/ProductsContext';
@@ -23,19 +23,18 @@ export const AddProducts = ({user, userId}) => {
         })
     })
 
-    const types = ['image/png', 'image/jpeg']; // image types
 
-    const productImgHandler = (e) => {
-        let selectedFile = e.target.files[0];
-        if (selectedFile && types.includes(selectedFile.type)) {
-            setProductImg(selectedFile);
-            setError('')
-        }
-        else {
-            setProductImg(null);
-            setError('Please select a valid image type (jpg or png)');
-        }
-    }
+    // const productImgHandler = (e) => {
+    //     let selectedFile = e.target.files[0];
+    //     if (selectedFile && types.includes(selectedFile.type)) {
+    //         setProductImg(selectedFile);
+    //         setError('')
+    //     }
+    //     else {
+    //         setProductImg(null);
+    //         setError('Please select a valid image type (jpg or png)');
+    //     }
+    // }
 
     // add product
     const addProduct = (e) => {

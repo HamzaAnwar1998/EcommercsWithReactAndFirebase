@@ -12,7 +12,7 @@ export const Navbar = ({ user, userId }) => {
 
     const history = useHistory();
     const { totalQty, dispatch} = useContext(CartContext);
-    const { products, productTypes, userProducts } = useContext(ProductsContext);
+    const { products, userProducts } = useContext(ProductsContext);
 
     useEffect(() => {
         dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});

@@ -8,7 +8,7 @@ export const Cashout = (props) => {
 
     const history = useHistory();
 
-    const { shoppingCart, totalPrice, totalQty, dispatch } = useContext(CartContext);
+    const { totalPrice, totalQty, dispatch } = useContext(CartContext);
 
     // defining state
     const [name, setName] = useState('');
