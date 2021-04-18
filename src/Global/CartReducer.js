@@ -82,6 +82,20 @@ export const CartReducer = (state, action) => {
             product = action.cart;
             updatedQty = totalQty - product.qty;
             updatedPrice = totalPrice - product.qty * product.ProductPrice;
+            let selectedDoc = db.collection('UserProduct')
+                            .where('ProductId', '==', action.id)
+                            .where('UserId' , '==', action.userId);
+            console.log(selectedDoc)
+            selectedDoc.get().then((querySnapshot) => {
+                querySnapshot.forEach(element => {
+                    element.ref.delete();
+                });
+            })
+            
+            // .({
+            //     ProductId: action.id,
+            //     UserId: action.userId,
+            // }).then(() => {}).catch(err => console.log(err.message));
             return {
                 shoppingCart: [...filtered], totalPrice: updatedPrice, totalQty: updatedQty
             }

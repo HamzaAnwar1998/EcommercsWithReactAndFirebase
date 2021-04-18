@@ -64,7 +64,7 @@ export const Cart = ({ user, userId }) => {
                                 {displayNumber(cart.TotalProductPrice)} VNĐ
                             </div>
 
-                            <button className='delete-btn' onClick={() => dispatch({ type: 'DELETE', id: cart.ProductID, cart })}>
+                            <button className='delete-btn' onClick={() => dispatch({ type: 'DELETE', id: cart.ProductID, cart, userId: userId })}>
                                 <Icon icon={iosTrashOutline} size={24} />
                             </button>
                         </div>
