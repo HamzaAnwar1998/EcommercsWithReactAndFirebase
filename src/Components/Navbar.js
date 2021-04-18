@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import logo from '../images/mobile.svg'
 import { Link } from 'react-router-dom'
 import { auth } from '../Config/Config'
@@ -6,11 +6,18 @@ import { Icon } from 'react-icons-kit'
 import { cart } from 'react-icons-kit/entypo/cart'
 import { useHistory } from 'react-router-dom'
 import { CartContext } from '../Global/CartContext'
+import { ProductsContext } from '../Global/ProductsContext';
 
-export const Navbar = ({ user }) => {
+export const Navbar = ({ user, userId }) => {
 
     const history = useHistory();
-    const { totalQty } = useContext(CartContext);
+    const { totalQty, dispatch} = useContext(CartContext);
+    const { products, productTypes, userProducts } = useContext(ProductsContext);
+
+    useEffect(() => {
+        dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});
+        
+    }, [userId, products.length, userProducts.length])
 
     // handle logout
     const handleLogout = () => {

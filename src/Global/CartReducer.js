@@ -7,11 +7,11 @@ toast.configure();
 export const CartReducer = (state, action) => {
 
     const { shoppingCart, totalPrice, totalQty } = state;
-
     let product;
     let index;
     let updatedPrice;
     let updatedQty;
+    let updatedShoppingCart;
 
     switch (action.type) {
 
@@ -91,6 +91,28 @@ export const CartReducer = (state, action) => {
             return {
                 shoppingCart: [], totalPrice: 0, totalQty: 0
             }
+        case 'SET_EXISTED_CART':
+            // let tp = 0, tq = 0, s = [];
+            updatedPrice = 0; updatedQty = 0;  updatedShoppingCart = [];
+            
+            action.products.forEach(p => {
+                const check = action.userProducts.find(up => (up.productId === p.ProductID) && (up.userId === action.userId))
+                
+                if(check) {
+                    const existed = updatedShoppingCart.find(sp => sp.ProductID === p.productID);
+                    if(!!!existed){
+                        p['qty'] = 1;
+                        p['TotalProductPrice'] = p.ProductPrice * p.qty;
+                        updatedShoppingCart.push(p);
+                        updatedPrice +=  Number(p.ProductPrice);
+                        updatedQty += 1;
+                    }
+                };
+            })
+            return  {
+                shoppingCart: [...updatedShoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
+            };
+        
 
         default:
             return state;

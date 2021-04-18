@@ -9,10 +9,12 @@ import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/Config'
 import { displayNumber } from '../Common';
+import { ProductsContext } from '../Global/ProductsContext';
 
-export const Cart = ({ user }) => {
+export const Cart = ({ user, userId }) => {
 
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
+    const { products, productTypes, userProducts } = useContext(ProductsContext);
 
     const history = useHistory();
 
@@ -21,8 +23,9 @@ export const Cart = ({ user }) => {
             if (!user) {
                 history.push('/login');
             }
-        })
-    })
+        });
+        dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});
+    }, [products.length, userProducts.length, userId]);
 
     return (
         <>
@@ -36,7 +39,7 @@ export const Cart = ({ user }) => {
                             <div><Link to="/">Return to Home page</Link></div>
                         </>
                     }
-                    {shoppingCart && shoppingCart.map(cart => (
+                    {shoppingCart && shoppingCart.length > 0 ?  shoppingCart.map(cart => (
                         <div className='cart-card' key={cart.ProductID}>
 
                             <div className='cart-img'>
@@ -65,7 +68,7 @@ export const Cart = ({ user }) => {
                                 <Icon icon={iosTrashOutline} size={24} />
                             </button>
                         </div>
-                    ))
+                    )) : null
                     }
                     {shoppingCart.length > 0 && <div className='cart-summary'>
                         <div className='cart-summary-heading'>

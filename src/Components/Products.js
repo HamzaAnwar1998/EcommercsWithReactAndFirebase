@@ -21,7 +21,8 @@ export const Products = ({userId}) => {
 
     useEffect(()=> {
         products.map(p => {
-            const checkAdd  = userProducts.find(up => up.productId === p.ProductID)
+            
+            const checkAdd  = userProducts.find(up => (up.productId === p.ProductID && userId === up.userId))
             if(checkAdd) p.isAdded = true;
             else p.isAdded = false;
         })
@@ -33,7 +34,7 @@ export const Products = ({userId}) => {
             const clone = products.filter(p => p.ProductType === category);
             setProductCopy([...clone]);
         }
-    }, [category, userProducts.length])
+    }, [category, userProducts.length, userId])
     
     
     

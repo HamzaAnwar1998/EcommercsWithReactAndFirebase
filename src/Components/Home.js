@@ -20,7 +20,7 @@ export const Home = ({ user, userId }) => {
     return (
         <div className=' wrapper home-wrapper'>
             <div className="home-item" style = {{flex : 2}}>
-                <Navbar user={user} />
+                <Navbar user={user} userId = {userId} />
             </div>
             <div className="home-item" style = {{flex : 8}}>
                 <Products userId = {userId} />
