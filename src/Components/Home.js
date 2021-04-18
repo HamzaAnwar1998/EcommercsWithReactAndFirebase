@@ -18,9 +18,13 @@ export const Home = ({ user }) => {
     })
 
     return (
-        <div className='wrapper'>
-            <Navbar user={user} />
-            <Products />
+        <div className=' wrapper home-wrapper'>
+            <div className="home-item" style = {{flex : 2}}>
+                <Navbar user={user} />
+            </div>
+            <div className="home-item" style = {{flex : 8}}>
+                <Products />
+            </div>
         </div>
     )
 }

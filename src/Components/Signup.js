@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { auth, db } from '../Config/Config'
 import { Link } from 'react-router-dom'
+import { Navbar } from './Navbar';
+import { useHistory } from 'react-router-dom'
+
 
 export const Signup = (props) => {
 
     // defining state
+    const history = useHistory();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,36 +27,41 @@ export const Signup = (props) => {
                 setEmail('');
                 setPassword('');
                 setError('');
-                props.history.push('/login');
+                history.push('/login');
             }).catch(err => setError(err.message));
         }).catch(err => setError(err.message));
     }
 
     return (
-        <div className='container'>
-            <br />
-            <h2>Sign up</h2>
-            <br />
-            <form autoComplete="off" className='form-group' onSubmit={signup}>
-                <label htmlFor="name">Name</label>
-                <input type="text" className='form-control' required
-                    onChange={(e) => setName(e.target.value)} value={name} />
+        <div className = 'signup-wrraper'>
+            <div className="signup" style = {{flex: 2}}>
+                <Navbar user = {props.user} />
+            </div>
+            <div className='container'  style = {{flex: 8}}>
                 <br />
-                <label htmlFor="email">Email</label>
-                <input type="email" className='form-control' required
-                    onChange={(e) => setEmail(e.target.value)} value={email} />
+                <h2>Sign up</h2>
                 <br />
-                <label htmlFor="passowrd">Password</label>
-                <input type="password" className='form-control' required
-                    onChange={(e) => setPassword(e.target.value)} value={password} />
+                <form autoComplete="off" className='form-group' onSubmit={signup}>
+                    <label htmlFor="name">Name</label>
+                    <input type="text" className='form-control' required
+                        onChange={(e) => setName(e.target.value)} value={name} />
+                    <br />
+                    <label htmlFor="email">Email</label>
+                    <input type="email" className='form-control' required
+                        onChange={(e) => setEmail(e.target.value)} value={email} />
+                    <br />
+                    <label htmlFor="passowrd">Password</label>
+                    <input type="password" className='form-control' required
+                        onChange={(e) => setPassword(e.target.value)} value={password} />
+                    <br />
+                    <button type="submit" className='btn btn-success btn-md mybtn'>SUBMIT</button>
+                </form>
+                {error && <span className='error-msg'>{error}</span>}
                 <br />
-                <button type="submit" className='btn btn-success btn-md mybtn'>SUBMIT</button>
-            </form>
-            {error && <span className='error-msg'>{error}</span>}
-            <br />
-            <span>Already have an account? Login
-                <Link to="login"> Here</Link>
-            </span>
+                <span>Already have an account? Login
+                    <Link to="login"> Here</Link>
+                </span>
+            </div>
         </div>
     )
 }

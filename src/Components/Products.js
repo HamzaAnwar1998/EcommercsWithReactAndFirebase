@@ -67,7 +67,7 @@ export const Products = () => {
                         : null}
                          
                         <li className="nav-item active">
-                            <Link className="nav-link btn btn-success add-type-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i class="fa fa-plus" aria-hidden="true"></i></Link>
+                            <Link className="nav-link btn btn-success add-type-product"  to = '/addproduct-type' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus-square" aria-hidden="true"></i></Link>
                         </li>
 
                     </ul>
@@ -75,7 +75,7 @@ export const Products = () => {
                 </nav>
             <div className='products-container'>
                 {products.length === 0 && <div>slow internet...no products to display</div>}
-                {productCopy.map(product => (
+                {productCopy && productCopy.length ? productCopy.map(product => (
                     <div className='product-card' key={product.ProductID}>
                         <div className='product-img'>
                             <img src={product.ProductImg} alt="not found" />
@@ -93,10 +93,14 @@ export const Products = () => {
                         }
                     </div>
                     
-                ))}
+                ))
+                : 
+                <div className = "product-items">
+                    No products of {category}
+                </div>}
             </div>
             <div className="nav-item active">
-                <Link className="nav-link btn btn-info add-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i class="fa fa-plus" aria-hidden="true"></i></Link>
+                <Link className="nav-link btn btn-info add-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus" aria-hidden="true"></i></Link>
             </div>
         </>
     )

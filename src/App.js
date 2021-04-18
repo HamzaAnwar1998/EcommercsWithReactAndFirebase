@@ -10,6 +10,7 @@ import { CartContextProvider } from './Global/CartContext'
 import { Cart } from './Components/Cart'
 import { AddProducts } from './Components/AddProducts'
 import { Cashout } from './Components/Cashout'
+import { AddProductType } from './Components/AddProductType';
 
 export class App extends Component {
 
@@ -46,13 +47,15 @@ export class App extends Component {
                             {/* home */}
                             <Route exact path='/' component={() => <Home user={this.state.user} />} />
                             {/* signup */}
-                            <Route path="/signup" component={Signup} />
+                            <Route path="/signup" component={() => <Signup history = {this.state} user={this.state.user} />} />
                             {/* login */}
-                            <Route path="/login" component={Login} />
+                            <Route path="/login" component={() => <Login history = {this.state} user={this.state.user}/>} />
                             {/* cart products */}
                             <Route path="/cartproducts" component={() => <Cart user={this.state.user} />} />
                             {/* add products */}
-                            <Route path="/addproducts" component={AddProducts} />
+                            <Route path="/addproducts" component={() => <AddProducts user={this.state.user} />} />
+                            {/* add product type */}
+                            <Route path="/addproduct-type" component={() => <AddProductType user={this.state.user} />} />
                             {/* cashout */}
                             <Route path='/cashout' component={() => <Cashout user={this.state.user} />} />
                             <Route component={NotFound} />
