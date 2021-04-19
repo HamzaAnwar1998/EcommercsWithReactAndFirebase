@@ -35,7 +35,7 @@ export const Products = ({userId}) => {
             const clone = products.filter(p => p.ProductType === category);
             setProductCopy([...clone]);
         }
-    }, [category, userProducts.length, userId])
+    }, [category, userProducts.length, userId, shoppingCart.length])
     
     
     

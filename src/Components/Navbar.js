@@ -30,7 +30,8 @@ export const Navbar = ({ user, userId }) => {
         <div className='navbox'>
             <div className='leftside'>
                 <Link to='/'>
-                    <img src={logo} alt="" />
+                    {/* <img src={logo} alt="" /> */}
+                    <img src="https://img.icons8.com/color/48/000000/ios-photos.png"/>
                 </Link>
                 <h1>Mobile Shopping Online</h1>
             </div>

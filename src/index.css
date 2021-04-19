@@ -63,8 +63,9 @@ body {
 
 
 .navbox .leftside img {
-    width: 100px;
-    height: 100px;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
 }
 
 .navbox .rightside {
