@@ -55,6 +55,11 @@ export const ProductDetail = (props) => {
     
     useEffect(() => {
         const productId = query.slice(lastIndex + 1, query.length);
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                history.push('/login');
+            }
+        })
         db.collection("Products")
         .doc(productId)
         .get()
