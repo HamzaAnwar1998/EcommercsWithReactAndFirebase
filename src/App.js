@@ -11,6 +11,7 @@ import { Cart } from './Components/Cart'
 import { AddProducts } from './Components/AddProducts'
 import { Cashout } from './Components/Cashout'
 import { AddProductType } from './Components/AddProductType';
+import { ProductDetail } from './Components/ProductDetail';
 
 export class App extends Component {
 
@@ -60,6 +61,8 @@ export class App extends Component {
                             <Route path="/addproduct-type" component={() => <AddProductType user={this.state.user} />} />
                             {/* cashout */}
                             <Route path='/cashout' component={() => <Cashout user={this.state.user} />} />
+                            {/* product detail */}
+                            <Route path="/product-detail/:productId" component={() => <ProductDetail history = {this.state} user={this.state.user} userId ={this.state.userId}/> } />
                             <Route component={NotFound} />
                         </Switch>
                     </BrowserRouter>

@@ -85,7 +85,6 @@ export const CartReducer = (state, action) => {
             let selectedDoc = db.collection('UserProduct')
                             .where('ProductId', '==', action.id)
                             .where('UserId' , '==', action.userId);
-            console.log(selectedDoc)
             selectedDoc.get().then((querySnapshot) => {
                 querySnapshot.forEach(element => {
                     element.ref.delete();

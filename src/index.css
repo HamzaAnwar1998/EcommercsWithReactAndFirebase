@@ -158,6 +158,7 @@ h1 {
     position: relative;
     background-color: white;
     border-radius: 4px;
+    overflow-x: hidden !important;  
 }
 
 .product-card:hover{
@@ -169,6 +170,7 @@ h1 {
     width: 100%;
     height: 300px;
     padding: 12px 0 12px 0;
+    position: relative;
 }
 
 .products-container .product-card .product-img img {
@@ -368,9 +370,40 @@ h1 {
 }
 
 .toastInfo{
-    background-color:  #2e003e !important;
+    background-color:  #17a2b8 !important;
 }
 
 .toastError{
     background-color: #fe4a49 !important;
+}
+
+.button-group{
+    margin:  0 !important;
+}
+
+.delete-product{
+    background-color: red;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    color: white;
+    position: absolute;
+    right: -50px;
+    top: -50px
+}
+
+.product-card:hover .delete-product{
+    transform: translate(-50px, 50px);
+    transition: ease-in-out;
+    transition-duration: 0.5s;
+}
+
+.discount{
+    width: 50%;
+    border-radius: 15px 0 0 15px;
+    background-color: #ffc107;
+    position: absolute;
+    right: 0;
+    top: 80%;
+    padding: 5px 0 5px 0;
 }

@@ -11,12 +11,17 @@ export const Products = ({userId}) => {
 
     const [productCopy, setProductCopy] = useState([]);
     
-    const { products, productTypes, userProducts } = useContext(ProductsContext);
+    const { products, productTypes, userProducts, deleteProduct } = useContext(ProductsContext);
     
     const { dispatch, shoppingCart } = useContext(CartContext);
 
     const filterByType = (type) => {
         setCategory(type);
+    };
+
+    const _delete = (e, p) => {
+        e.preventDefault();
+        deleteProduct(p);
     }
 
     useEffect(()=> {
@@ -43,7 +48,7 @@ export const Products = ({userId}) => {
         <>
             {/* {products.length !== 0 && <h1>Products</h1>} */}
             <nav className="navbar navbar-expand-lg navbar-light">
-                <a className="navbar-brand" href="#"><h1>Products</h1></a>
+                <a className="navbar-brand" href="#"><h1 style= {{padding: 0}}>Products</h1></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -83,23 +88,38 @@ export const Products = ({userId}) => {
             <div className='products-container'>
                 {products.length === 0 && <div>slow internet...no products to display</div>}
                 {productCopy && productCopy.length ? productCopy.map(product => (
-                    <div className='product-card' key={product.ProductID}>
-                        <div className='product-img'>
-                            <img src={product.ProductImg} alt="not found" />
+                    <div key={product.ProductID}>
+                        <div className='product-card'>
+                            <div className='product-img'>
+                                <img src={product.ProductImg} alt="not found" />
+                                {product.ProductSale ? 
+                                    <div className = "discount">
+                                        Sale {displayNumber(product.ProductSale)}đ
+                                    </div>
+                                : null}
+                            </div>
+                            <div className='product-name'>
+                                {product.ProductName}
+                            </div>
+                            <div className='product-price'>
+                                {displayNumber(product.ProductPrice) }  VNĐ
+                                
+                            </div>
+                             
+                            <button className="btn btn-danger delete-product" onClick = {(e) => _delete(e, product)}>
+                                <i className="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            
+                            <div className="button-group row" style = {{width: '100%'}}>
+                                {shoppingCart.find(c => c.ProductID === product.ProductID) || product.isAdded ? 
+                                    <button  type = "button" className=' addcart-btn btn btn-secondary col col-sm-12 col-md-6' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
+                                    :
+                                    <button  type = "button" className=' addcart-btn btn btn-outline-primary col col-sm-12 col-md-6' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
+                                }
+                                    <Link type="button" className="addcart-btn btn btn-outline-warning col col-sm-12 col-md-6" to = {`/product-detail/${product.ProductID}`}> OPEN </Link>
+                            </div>
                         </div>
-                        <div className='product-name'>
-                            {product.ProductName}
-                        </div>
-                        <div className='product-price'>
-                            {displayNumber(product.ProductPrice)} VNĐ
                     </div>
-                        {shoppingCart.find(c => c.ProductID === product.ProductID) || product.isAdded ? 
-                            <button  type = "button" className=' addcart-btn btn btn-secondary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
-                            :
-                            <button  type = "button" className=' addcart-btn btn btn-outline-primary' onClick={() => dispatch({ type: 'ADD_TO_CART', id: product.ProductID, product, userId: userId })}>ADD TO CART</button>
-                        }
-                    </div>
-                    
                 ))
                 : 
                 <div className = "product-items">
