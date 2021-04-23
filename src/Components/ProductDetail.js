@@ -259,9 +259,34 @@ export const ProductDetail = (props) => {
                     <div className="row mt-3">
                         <div className="col">
                         <div className="card">
-                            Danh gia nhan xet
+                        <div className="card-body">
+                            <h5 className="card-title" style={{fontWeight: 'bold'}}>Đánh giá & Nhận Xét</h5>
+                            <div className="d-flex">
+                                <img className="small-user-avatar" style={{width:'5rem', height:'5rem'}} src = {require('../images/user.png')} />
+                                <div className="d-flex flex-column">
+                                    <div style={{fontWeight: 'bold'}}>Name</div>
+                                    <div className="d-flex">
+                                    {
+                                        [...Array(5).keys()].map(i => (<i className="fa fa-star text-success pr-1" aria-hidden="true"></i>))
+                                    }   
+                                    </div>
+                                    <p>Mình mua màu bạc. Máy quá đẹp và sang trọng, thiết kế vừa tay, cầm rết chắc tay. Giá giảm 8/3 quá ngon và tiết kiệm cho 1 chiếc máy xịn xò như này. Camera phải nói là siêu xịn, mê nhất là camera và con chip. Nói chung iPhone thì quá tuyệt vời không còn gì để nói. 10</p>
+                                </div>
+                            </div>
+                            <div className="d-flex">
+                                <img className="small-user-avatar" style={{width:'5rem', height:'5rem'}} src = {require('../images/user.png')} />
+                                <div className="d-flex flex-column">
+                                    <div style={{fontWeight: 'bold'}}>Name</div>
+                                    <div className="d-flex">
+                                    {
+                                        [...Array(5).keys()].map(i => (<i className="fa fa-star text-success pr-1" aria-hidden="true"></i>))
+                                    }   
+                                    </div>
+                                    <p>Mình mua màu bạc. Máy quá đẹp và sang trọng, thiết kế vừa tay, cầm rết chắc tay. Giá giảm 8/3 quá ngon và tiết kiệm cho 1 chiếc máy xịn xò như này. Camera phải nói là siêu xịn, mê nhất là camera và con chip. Nói chung iPhone thì quá tuyệt vời không còn gì để nói. 10</p>
+                                </div>
+                            </div>
                         </div>
-
+                        </div>
                         </div>
                     </div>
                 </div>
