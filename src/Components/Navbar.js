@@ -41,7 +41,7 @@ export const Navbar = ({ user, userId, avatar }) => {
             </div>}
             {user && <div className='rightside'>
                 <span>
-                    <img className="small-user-avatar" src = {avatar} />
+                    <img className="small-user-avatar" src = {avatar ? avatar : require('../images/user.png')} />
                     <Link to={`/user-detail/${userId}`} className='navlink'>{user}</Link>
                 </span>
                 <span style = {{position: 'relative'}}><Link to="cartproducts" className='navlink'><Icon icon={cart} /></Link>
