@@ -86,7 +86,7 @@ export class App extends Component {
                             {/* cashout */}
                             <Route path='/cashout' component={() => <Cashout  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
                             {/* product detail */}
-                            <Route path="/product-detail/:productId" component={() => <ProductDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId}/> } />
+                            <Route path="/product-detail/:productId" component={() => <ProductDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} /> } />
                             {/* user detail */}
                             <Route path="/user-detail/:userId" component={() => <UserDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
                             {/* chat */}
