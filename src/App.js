@@ -33,7 +33,6 @@ export class App extends Component {
                         avatar: snapshot.data().Avatar,
                         isAdmin: snapshot.data().IsAdmin ? true : false 
                     }, ()=>{
-                        console.log(this.state.isAdmin)
                     })
                 })
             }
