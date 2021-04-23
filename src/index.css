@@ -407,3 +407,34 @@ h1 {
     top: 80%;
     padding: 5px 0 5px 0;
 }
+
+.user-information{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.avatar {
+    width: 40%;
+    height: 100%;
+}
+
+.avatar .avatar-img img{
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+}
+
+.form-user{
+    width: 60%;
+    height: 100%;
+}
+
+.small-user-avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}

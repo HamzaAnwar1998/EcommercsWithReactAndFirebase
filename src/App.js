@@ -12,7 +12,7 @@ import { AddProducts } from './Components/AddProducts'
 import { Cashout } from './Components/Cashout'
 import { AddProductType } from './Components/AddProductType';
 import { ProductDetail } from './Components/ProductDetail';
-
+import { UserDetail } from './Components/UserDetail';
 export class App extends Component {
 
     state = {
@@ -28,7 +28,8 @@ export class App extends Component {
                 db.collection('SignedUpUsersData').doc(user.uid).get().then(snapshot => {
                     this.setState({
                         userId: user.uid,
-                        user: snapshot.data().Name
+                        user: snapshot.data().Name,
+                        avatar: snapshot.data().Avatar
                     })
                 })
             }
@@ -48,7 +49,7 @@ export class App extends Component {
                     <BrowserRouter>
                         <Switch>
                             {/* home */}
-                            <Route exact path='/' component={() => <Home user={this.state.user} userId ={this.state.userId}/>} />
+                            <Route exact path='/' component={() => <Home avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
                             {/* signup */}
                             <Route path="/signup" component={() => <Signup history = {this.state} user={this.state.user} />} />
                             {/* login */}
@@ -63,6 +64,9 @@ export class App extends Component {
                             <Route path='/cashout' component={() => <Cashout user={this.state.user} />} />
                             {/* product detail */}
                             <Route path="/product-detail/:productId" component={() => <ProductDetail history = {this.state} user={this.state.user} userId ={this.state.userId}/> } />
+                            {/* user detail */}
+                            <Route path="/user-detail/:userId" component={() => <UserDetail history = {this.state} user={this.state.user} userId ={this.state.userId}/> }/>
+
                             <Route component={NotFound} />
                         </Switch>
                     </BrowserRouter>

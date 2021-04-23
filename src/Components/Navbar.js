@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { CartContext } from '../Global/CartContext'
 import { ProductsContext } from '../Global/ProductsContext';
 
-export const Navbar = ({ user, userId }) => {
+export const Navbar = ({ user, userId, avatar }) => {
 
     const history = useHistory();
     const { totalQty, dispatch} = useContext(CartContext);
@@ -17,7 +17,7 @@ export const Navbar = ({ user, userId }) => {
     useEffect(() => {
         dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});
         
-    }, [userId, products.length, userProducts.length])
+    }, [userId, products.length, userProducts.length, user])
 
     // handle logout
     const handleLogout = () => {
@@ -40,7 +40,10 @@ export const Navbar = ({ user, userId }) => {
                 <span><Link to="login" className='navlink'>LOGIN</Link></span>
             </div>}
             {user && <div className='rightside'>
-                <span><Link to="/" className='navlink'>{user}</Link></span>
+                <span>
+                    <img className="small-user-avatar" src = {avatar} />
+                    <Link to={`/user-detail/${userId}`} className='navlink'>{user}</Link>
+                </span>
                 <span style = {{position: 'relative'}}><Link to="cartproducts" className='navlink'><Icon icon={cart} /></Link>
                 <span className='no-of-products'>{totalQty}</span>
                 </span>
