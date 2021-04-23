@@ -209,7 +209,7 @@ export const ProductDetail = (props) => {
                             </div>
                         </div>
                         <div className="col-md-6 col-sm-12 mt-3">
-                            <div className="card shadow-sm bg-body rounded" style={{width: '100%'}}>
+                            <div className="card shadow-sm bg-body rounded" style={{width: '100%', height:'100%'}}>
                             <div className="card-body">
                                 <h5 className="card-title" style={{fontWeight: 'bold'}}>Thong So Ky Thuat</h5>
                                 <table class="table table-striped table-hover">
@@ -254,6 +254,14 @@ export const ProductDetail = (props) => {
                                 </table>
                             </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col">
+                        <div className="card">
+                            Danh gia nhan xet
+                        </div>
+
                         </div>
                     </div>
                 </div>
