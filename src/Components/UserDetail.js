@@ -3,6 +3,8 @@ import { auth, db } from '../Config/Config'
 import { Navbar } from './Navbar';
 import { useHistory, useParams } from 'react-router-dom';
 import { ProductsContext } from '../Global/ProductsContext';
+import { toast } from 'react-toastify';
+toast.configure();
 
 
 
@@ -11,6 +13,7 @@ export const UserDetail = (props) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [avatar, setAvatar] = useState('');
     const [error, setError] = useState('');
     const query = history.location.pathname;
@@ -19,7 +22,10 @@ export const UserDetail = (props) => {
     const {userId} = useParams(); 
     const updatedUser = (e) => {
         e.preventDefault();
-        console.log(name, email, password, avatar)
+        if(confirmPassword !== password){
+            toast.error('Password not match!!!');
+            return;
+        }
         let userRef = db.collection('SignedUpUsersData').doc(userId);
         userRef.update({
             Name: name,
@@ -27,6 +33,7 @@ export const UserDetail = (props) => {
             Password: password,
             Avatar: avatar
         }).then(()=>{
+            props.reGetUser();
             history.push(`/`)
         });
     }
@@ -95,6 +102,10 @@ export const UserDetail = (props) => {
                             <label htmlFor="passowrd">Password</label>
                             <input type="password" className='form-control' required
                                 onChange={(e) => setPassword(e.target.value)} value={password} />
+                            <br />
+                            <label htmlFor="confirmPassowrd">Confirm Password</label>
+                            <input type="password" className='form-control' required
+                                onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
                             <br />
                             <label htmlFor="avatar">Avatar Link</label>
                             <input type="text" className='form-control' required

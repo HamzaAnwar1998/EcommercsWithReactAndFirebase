@@ -42,6 +42,25 @@ export class App extends Component {
 
     }
 
+    reGetUser = () => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                db.collection('SignedUpUsersData').doc(user.uid).get().then(snapshot => {
+                    this.setState({
+                        userId: user.uid,
+                        user: snapshot.data().Name,
+                        avatar: snapshot.data().Avatar
+                    })
+                })
+            }
+            else {
+                this.setState({
+                    user: null
+                })
+            }
+        })
+    }
+
     render() {
         return (
             <ProductsContextProvider>
@@ -55,17 +74,17 @@ export class App extends Component {
                             {/* login */}
                             <Route path="/login" component={() => <Login history = {this.state} user={this.state.user}/>} />
                             {/* cart products */}
-                            <Route path="/cartproducts" component={() => <Cart user={this.state.user} userId = {this.state.userId} />} />
+                            <Route path="/cartproducts" component={() => <Cart avatar = {this.state.avatar} user={this.state.user} userId = {this.state.userId} />} />
                             {/* add products */}
-                            <Route path="/addproducts" component={() => <AddProducts user={this.state.user} userId ={this.state.userId} />} />
+                            <Route path="/addproducts" component={() => <AddProducts avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
                             {/* add product type */}
-                            <Route path="/addproduct-type" component={() => <AddProductType user={this.state.user} />} />
+                            <Route path="/addproduct-type" component={() => <AddProductType avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
                             {/* cashout */}
-                            <Route path='/cashout' component={() => <Cashout user={this.state.user} />} />
+                            <Route path='/cashout' component={() => <Cashout avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
                             {/* product detail */}
                             <Route path="/product-detail/:productId" component={() => <ProductDetail history = {this.state} user={this.state.user} userId ={this.state.userId}/> } />
                             {/* user detail */}
-                            <Route path="/user-detail/:userId" component={() => <UserDetail history = {this.state} user={this.state.user} userId ={this.state.userId}/> }/>
+                            <Route path="/user-detail/:userId" component={() => <UserDetail history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
 
                             <Route component={NotFound} />
                         </Switch>

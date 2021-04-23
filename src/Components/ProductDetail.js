@@ -106,7 +106,7 @@ export const ProductDetail = (props) => {
     return (
         <div className = "login-wrapper">
             <div className="login" style = {{flex : 1}}>
-                <Navbar user = {props.user} />
+                <Navbar user = {props.user}  userId = {props.userId} avatar = {props.avatar}/>
             </div>
             <div className='container' style ={{flex : 10}}>
                 <br />

@@ -11,7 +11,7 @@ import { auth } from '../Config/Config'
 import { displayNumber } from '../Common';
 import { ProductsContext } from '../Global/ProductsContext';
 
-export const Cart = ({ user, userId }) => {
+export const Cart = ({ user, userId, avatar }) => {
 
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
     const { products, userProducts } = useContext(ProductsContext);
@@ -29,7 +29,7 @@ export const Cart = ({ user, userId }) => {
 
     return (
         <>
-            <Navbar user={user} />
+            <Navbar user={user} userId = {userId} avatar = {avatar}/>
             <>
                 {shoppingCart.length !== 0 && <h1>Cart</h1>}
                 <div className='cart-container'>

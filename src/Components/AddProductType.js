@@ -8,7 +8,7 @@ toast.configure();
 
 
 
-export const AddProductType = ({user}) => {
+export const AddProductType = ({user, userId, avatar}) => {
 
     const [productType, setProductType] = useState('');
     const [error, setError] = useState('');
@@ -54,7 +54,7 @@ export const AddProductType = ({user}) => {
     return (
         <>
             <div className='wrapper'>
-                <Navbar user={user} />
+                <Navbar user={user} userId = {userId} avatar = {avatar}/>
                 <div className='container add-product-container'>
                     <br />
                     <h2>ADD PRODUCT TYPE</h2>

@@ -6,7 +6,7 @@ import { ProductsContext } from '../Global/ProductsContext';
 
 
 
-export const AddProducts = ({user, userId}) => {
+export const AddProducts = ({user, userId, avatar}) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState(0);
     const [productImg, setProductImg] = useState('');
@@ -79,7 +79,7 @@ export const AddProducts = ({user, userId}) => {
         <>
 
             <div className='wrapper'>
-                <Navbar user={user} />
+                <Navbar user={user} userId = {userId} avatar = {avatar}/>
                 <div className='container add-product-container'>
                     <br />
                     <h2>ADD PRODUCTS</h2>
