@@ -9,6 +9,7 @@ import { ProductsContext } from '../Global/ProductsContext';
 
 export const ProductDetail = (props) => {
     const history = useHistory();
+    const [role, setRole] = useState('USER');
     const [productPrice, setProductPrice] = useState('');
     const [productName, setProductName] = useState('');
     const [productImg, setProductImg] = useState('');
@@ -103,6 +104,7 @@ export const ProductDetail = (props) => {
         });
     });
 
+    if(role === 'ADMIN')
     return (
         <div className = "login-wrapper">
             <div className="login" style = {{flex : 1}}>
@@ -128,47 +130,141 @@ export const ProductDetail = (props) => {
                     <label htmlFor="productPrice">Sale</label>
                     <input type="number" className='form-control' 
                         onChange={(e) => setProductSale(e.target.value)} value={productSale} />
-                    <br />
-                    <label htmlFor="product-type">Product Type</label>
-                    <select onChange = {(e) => {setProductType(e.target.value)}} value = {productType} className="form-select form-control" aria-label="Product Type" required>
-                        {productTypes && productTypes.length ? productTypes.map((t,i) => {
-                            return <option key = {i} value={t.Type}>{t.Type}</option>
-                        }) : null}
-                    </select>
-                    <br />
-                    <label htmlFor="manHinh">Screen</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setManHinh(e.target.value)} value={manHinh} />
-                    <br />
-                    <label htmlFor="heDieuHanh">Operate System</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setHeDieuHanh(e.target.value)} value={heDieuHanh} />
-                    <br /><label htmlFor="cameraSau">Rear camera</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setCameraSau(e.target.value)} value={cameraSau} />
-                    <br /><label htmlFor="cameraTruoc">Primary camera</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setCameraTruoc(e.target.value)} value={cameraTruoc} />
-                    <br /><label htmlFor="chip">Chip</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setChip(e.target.value)} value={chip} />
-                    <br /><label htmlFor="ram">RAM</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setRam(e.target.value)} value={ram} />
-                    <br /><label htmlFor="boNhoTrong">Memory</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setBoNhoTrong(e.target.value)} value={boNhoTrong} />
-                    <br /><label htmlFor="sim">SIM</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setSim(e.target.value)} value={sim} />
-                    <br /><label htmlFor="pin">PIN</label>
-                    <input type="text" className='form-control' 
-                        onChange={(e) => setPin(e.target.value)} value={pin} />
-                    <br />
-                    <button type="submit" className='btn btn-success btn-md mybtn'>Edit</button>
-                </form>
-                {error && <span className='error-msg'>{error}</span>}
+                        <br />
+                        <label htmlFor="product-type">Product Type</label>
+                        <select onChange = {(e) => {setProductType(e.target.value)}} value = {productType} className="form-select form-control" aria-label="Product Type" required>
+                            {productTypes && productTypes.length ? productTypes.map((t,i) => {
+                                return <option key = {i} value={t.Type}>{t.Type}</option>
+                            }) : null}
+                        </select>
+                        <br />
+                        <label htmlFor="manHinh">Screen</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setManHinh(e.target.value)} value={manHinh} />
+                        <br />
+                        <label htmlFor="heDieuHanh">Operate System</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setHeDieuHanh(e.target.value)} value={heDieuHanh} />
+                        <br /><label htmlFor="cameraSau">Rear camera</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setCameraSau(e.target.value)} value={cameraSau} />
+                        <br /><label htmlFor="cameraTruoc">Primary camera</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setCameraTruoc(e.target.value)} value={cameraTruoc} />
+                        <br /><label htmlFor="chip">Chip</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setChip(e.target.value)} value={chip} />
+                        <br /><label htmlFor="ram">RAM</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setRam(e.target.value)} value={ram} />
+                        <br /><label htmlFor="boNhoTrong">Memory</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setBoNhoTrong(e.target.value)} value={boNhoTrong} />
+                        <br /><label htmlFor="sim">SIM</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setSim(e.target.value)} value={sim} />
+                        <br /><label htmlFor="pin">PIN</label>
+                        <input type="text" className='form-control' 
+                            onChange={(e) => setPin(e.target.value)} value={pin} />
+                        <br />
+                        <button type="submit" className='btn btn-success btn-md mybtn'>Edit</button>
+                    </form>
+                    {error && <span className='error-msg'>{error}</span>}
+                </div>
             </div>
+        );
+    else return (
+        <div className = "login-wrapper">
+                <div className="login" style = {{flex : 1}}>
+                    <Navbar user = {props.user} />
+                </div>
+                <div className="container" style ={{flex : 10}}>
+                    <div className="row">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><Link to="/">Home</Link></li>
+                            <li class="breadcrumb-item active" aria-current="page">{productType}</li>
+                        </ol>
+                    </nav>
+                    </div>
+                    <div className='row border-bottom'>
+                        <div className="col-md-8 col-sm-12">
+                            <p style={{fontSize :'24px', color:'#212529', fontWeight:'bold'}}>{productName}</p>
+                        </div>
+                        <div className="col-md-4 col-sm-12 d-flex align-items-end">
+                            {productSale > 0 ? (<>
+                                <p style={{fontSize :'24px', fontWeight:'bold'}} class="text-success">{productPrice - productSale + 'đ'}</p>
+                                <p style={{textDecorationLine:'line-through'}} class="text-secondary">{' ' + productPrice + 'đ'}</p></>
+                            ) : ( <p style={{fontSize :'24px', fontWeight:'bold'}} class="text-success">{productPrice + 'đ'}</p>)}
+                            
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6 col-sm-12 mt-3">
+                            <div className="card shadow-sm bg-body rounded" style={{width: '100%'}}>
+                                <img src = {productImg} alt="" className="card-img-top"/>
+                                <div className="card-body d-flex justify-content-center">
+                                <button class="btn btn-success">ADD TO CART</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-6 col-sm-12 mt-3">
+                            <div className="card shadow-sm bg-body rounded" style={{width: '100%', height:'100%'}}>
+                            <div className="card-body">
+                                <h5 className="card-title" style={{fontWeight: 'bold'}}>Thong So Ky Thuat</h5>
+                                <table class="table table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td>Screen</td>
+                                        <td>{manHinh}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Operate System</td>
+                                        <td>{heDieuHanh}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rear Camera</td>
+                                        <td>{cameraSau}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Primary camera</td>
+                                        <td>{cameraTruoc}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chip</td>
+                                        <td>{chip}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RAM</td>
+                                        <td>{ram}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Memory</td>
+                                        <td>{boNhoTrong}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SIM</td>
+                                        <td>{sim}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIN</td>
+                                        <td>{pin}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col">
+                        <div className="card">
+                            Danh gia nhan xet
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
         </div>
     )
 }
