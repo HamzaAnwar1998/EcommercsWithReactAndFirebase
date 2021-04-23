@@ -5,7 +5,7 @@ import { displayNumber } from '../Common';
 import { Link } from 'react-router-dom'
 
 
-export const Products = ({userId}) => {
+export const Products = ({userId, isAdmin}) => {
     
     const [category, setCategory] = useState('All');
 
@@ -25,6 +25,7 @@ export const Products = ({userId}) => {
     }
 
     useEffect(()=> {
+        console.log(isAdmin)
         products.map(p => {
             
             const checkAdd  = userProducts.find(up => (up.productId === p.ProductID && userId === up.userId))
@@ -40,7 +41,7 @@ export const Products = ({userId}) => {
             const clone = products.filter(p => p.ProductType === category);
             setProductCopy([...clone]);
         }
-    }, [category, userProducts.length, userId, shoppingCart.length, products.length])
+    }, [category, userProducts.length, userId, shoppingCart.length, products.length, isAdmin])
     
     
     
@@ -77,10 +78,13 @@ export const Products = ({userId}) => {
                             </li>
                         )
                         : null}
-                         
-                        <li className="nav-item active">
-                            <Link className="nav-link btn btn-success add-type-product"  to = '/addproduct-type' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus-square" aria-hidden="true"></i></Link>
-                        </li>
+                         {
+                            isAdmin? 
+                                <li className="nav-item active">
+                                    <Link className="nav-link btn btn-success add-type-product"  to = '/addproduct-type' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus-square" aria-hidden="true"></i></Link>
+                                </li>
+                            :null
+                         }
 
                     </ul>
                 </div>
@@ -105,10 +109,11 @@ export const Products = ({userId}) => {
                                 {displayNumber(product.ProductPrice) }  VNĐ
                                 
                             </div>
-                             
-                            <button className="btn btn-danger delete-product" onClick = {(e) => _delete(e, product)}>
-                                <i className="fa fa-trash" aria-hidden="true"></i>
-                            </button>
+                             {isAdmin ? 
+                                <button className="btn btn-danger delete-product" onClick = {(e) => _delete(e, product)}>
+                                    <i className="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                             :null}
                             
                             <div className="button-group row" style = {{width: '100%'}}>
                                 {shoppingCart.find(c => c.ProductID === product.ProductID) || product.isAdded ? 
@@ -126,9 +131,11 @@ export const Products = ({userId}) => {
                     No products of {category}
                 </div>}
             </div>
-            <div className="nav-item active">
-                <Link className="nav-link btn btn-info add-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus" aria-hidden="true"></i></Link>
-            </div>
+            {isAdmin? 
+                <div className="nav-item active">
+                    <Link className="nav-link btn btn-info add-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus" aria-hidden="true"></i></Link>
+                </div>
+            :null}
         </>
     )
 }

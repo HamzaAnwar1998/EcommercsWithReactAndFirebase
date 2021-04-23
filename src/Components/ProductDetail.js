@@ -104,7 +104,7 @@ export const ProductDetail = (props) => {
         });
     });
 
-    if(role === 'ADMIN')
+    if(props.isAdmin)
     return (
         <div className = "login-wrapper">
             <div className="login" style = {{flex : 1}}>
@@ -128,51 +128,51 @@ export const ProductDetail = (props) => {
                         onChange={(e) => setProductImg(e.target.value)} value={productImg} />
                     <br />
                     <label htmlFor="productPrice">Sale</label>
-                    <input type="number" className='form-control' 
+                    <input type="number" className='form-control'  
                         onChange={(e) => setProductSale(e.target.value)} value={productSale} />
-                        <br />
-                        <label htmlFor="product-type">Product Type</label>
-                        <select onChange = {(e) => {setProductType(e.target.value)}} value = {productType} className="form-select form-control" aria-label="Product Type" required>
-                            {productTypes && productTypes.length ? productTypes.map((t,i) => {
-                                return <option key = {i} value={t.Type}>{t.Type}</option>
-                            }) : null}
-                        </select>
-                        <br />
-                        <label htmlFor="manHinh">Screen</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setManHinh(e.target.value)} value={manHinh} />
-                        <br />
-                        <label htmlFor="heDieuHanh">Operate System</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setHeDieuHanh(e.target.value)} value={heDieuHanh} />
-                        <br /><label htmlFor="cameraSau">Rear camera</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setCameraSau(e.target.value)} value={cameraSau} />
-                        <br /><label htmlFor="cameraTruoc">Primary camera</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setCameraTruoc(e.target.value)} value={cameraTruoc} />
-                        <br /><label htmlFor="chip">Chip</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setChip(e.target.value)} value={chip} />
-                        <br /><label htmlFor="ram">RAM</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setRam(e.target.value)} value={ram} />
-                        <br /><label htmlFor="boNhoTrong">Memory</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setBoNhoTrong(e.target.value)} value={boNhoTrong} />
-                        <br /><label htmlFor="sim">SIM</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setSim(e.target.value)} value={sim} />
-                        <br /><label htmlFor="pin">PIN</label>
-                        <input type="text" className='form-control' 
-                            onChange={(e) => setPin(e.target.value)} value={pin} />
-                        <br />
-                        <button type="submit" className='btn btn-success btn-md mybtn'>Edit</button>
-                    </form>
+                    <br />
+                    <label htmlFor="product-type">Product Type</label>
+                    <select onChange = {(e) => {setProductType(e.target.value)}} value = {productType} className="form-select form-control" aria-label="Product Type" required>
+                        {productTypes && productTypes.length ? productTypes.map((t,i) => {
+                            return <option key = {i} value={t.Type}>{t.Type}</option>
+                        }) : null}
+                    </select>
+                    <br />
+                    <label htmlFor="manHinh">Screen</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setManHinh(e.target.value)} value={manHinh} />
+                    <br />
+                    <label htmlFor="heDieuHanh">Operate System</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setHeDieuHanh(e.target.value)} value={heDieuHanh} />
+                    <br /><label htmlFor="cameraSau">Rear camera</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setCameraSau(e.target.value)} value={cameraSau} />
+                    <br /><label htmlFor="cameraTruoc">Primary camera</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setCameraTruoc(e.target.value)} value={cameraTruoc} />
+                    <br /><label htmlFor="chip">Chip</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setChip(e.target.value)} value={chip} />
+                    <br /><label htmlFor="ram">RAM</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setRam(e.target.value)} value={ram} />
+                    <br /><label htmlFor="boNhoTrong">Memory</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setBoNhoTrong(e.target.value)} value={boNhoTrong} />
+                    <br /><label htmlFor="sim">SIM</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setSim(e.target.value)} value={sim} />
+                    <br /><label htmlFor="pin">PIN</label>
+                    <input type="text" className='form-control' 
+                        onChange={(e) => setPin(e.target.value)} value={pin} />
+                    <br />
+                    <button type="submit" className='btn btn-success btn-md mybtn'>Edit</button>
+                </form>
                     {error && <span className='error-msg'>{error}</span>}
-                </div>
             </div>
-        );
+        </div>
+    );
     else return (
         <div className = "login-wrapper">
                 <div className="login" style = {{flex : 1}}>
@@ -211,7 +211,7 @@ export const ProductDetail = (props) => {
                         <div className="col-md-6 col-sm-12 mt-3">
                             <div className="card shadow-sm bg-body rounded" style={{width: '100%', height:'100%'}}>
                             <div className="card-body">
-                                <h5 className="card-title" style={{fontWeight: 'bold'}}>Thông Số Kỹ Thuật</h5>
+                                <h5 className="card-title" style={{fontWeight: 'bold'}}>Technical specifications</h5>
                                 <table class="table table-striped table-hover">
                                 <tbody>
                                     <tr>
