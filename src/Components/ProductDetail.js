@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { useHistory } from 'react-router-dom';
 import { ProductsContext } from '../Global/ProductsContext';
+import TimeAgo from 'timeago-react';
 
 
 
@@ -24,6 +25,7 @@ export const ProductDetail = (props) => {
     const [sim, setSim] = useState('');
     const [pin, setPin] = useState('');
     const [productSale, setProductSale] = useState(0);
+    const [rating, setRating] = useState(null);
     const [error, setError] = useState('');
     const query = history.location.pathname;
     const lastIndex  = query.lastIndexOf("/");
@@ -47,7 +49,8 @@ export const ProductDetail = (props) => {
                     BoNhoTrong: boNhoTrong,
                     Sim: sim,
                     Pin: pin,
-                    ProductSale: productSale
+                    ProductSale: productSale,
+                    rating,
         }).then(()=>{
             getProducts()
             history.push('/')
@@ -95,6 +98,8 @@ export const ProductDetail = (props) => {
             getDoc.ProductSale ? setProductSale(getDoc.ProductSale) : null;
             // eslint-disable-next-line no-unused-expressions
             getDoc.Chip ? setChip(getDoc.Chip) : null;
+            // eslint-disable-next-line no-unused-expressions
+            getDoc.rating ? setRating(getDoc.rating) : null;
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -102,7 +107,7 @@ export const ProductDetail = (props) => {
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });
-    });
+    },[]);
 
     if(props.isAdmin)
     return (
@@ -260,31 +265,53 @@ export const ProductDetail = (props) => {
                         <div className="col">
                         <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title" style={{fontWeight: 'bold'}}>Đánh giá & Nhận Xét</h5>
-                            <div className="d-flex">
-                                <img className="small-user-avatar" style={{width:'5rem', height:'5rem'}} src = {require('../images/user.png')} />
-                                <div className="d-flex flex-column">
-                                    <div style={{fontWeight: 'bold'}}>Name</div>
-                                    <div className="d-flex">
-                                    {
-                                        [...Array(5).keys()].map(i => (<i className="fa fa-star text-success pr-1" aria-hidden="true"></i>))
-                                    }   
+                            <h5 className="card-title" style={{fontWeight: 'bold'}}>Ratings & Reviews</h5>
+                            <div className="d-flex justify-content-around mb-4">
+                                <div className="d-flex flex-column align-items-center">
+                                    <div style={{fontWeight: '400'}}>Average Rating</div>
+                                    <div style={{fontSize:'3rem', fontWeight: 'bold', color:'red'}}>{rating && Math.round(rating.reduce((a,b) => a + b.stars, 0) / rating.length) + '/5'}</div>
+                                    <div>
+                                    { rating && [...Array(5).keys()].map(i => i < Math.round(rating.reduce((a,b) => a + b.stars, 0) / rating.length) ?
+                                        (<i key={i} className="fa fa-star text-warning pr-1" aria-hidden="true"></i>) :
+                                        (<i key={i} className="fa fa-star text-muted pr-1" aria-hidden="true"></i>))
+                                    }
                                     </div>
-                                    <p>Mình mua màu bạc. Máy quá đẹp và sang trọng, thiết kế vừa tay, cầm rết chắc tay. Giá giảm 8/3 quá ngon và tiết kiệm cho 1 chiếc máy xịn xò như này. Camera phải nói là siêu xịn, mê nhất là camera và con chip. Nói chung iPhone thì quá tuyệt vời không còn gì để nói. 10</p>
+                                </div>
+                                <div className="d-flex flex-column align-items-center" style={{width:'470px', height:'100px'}}>
+                                    {
+                                        [...Array(5).keys()].reverse().map(i => (
+                                            <div key={i} className="d-flex align-items-center">
+                                                <div style={{width:'12px'}}>{i + 1}</div>
+                                                <i className="fa fa-star text-warning px-1" aria-hidden="true"></i>
+                                                <div className="progress" style={{width:'280px', height:'10px'}}>
+                                                    <div className="progress-bar bg-success" role="progressbar" style={{width: (rating && rating.filter(item => item.stars === i + 1).length / rating.length) * 100 + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <div className="ml-1 text-muted" style={{width:'24px'}}>{rating && rating.filter(item => item.stars === i + 1).length}</div>
+                                            </div>
+                                        ))
+                                    }
                                 </div>
                             </div>
-                            <div className="d-flex">
-                                <img className="small-user-avatar" style={{width:'5rem', height:'5rem'}} src = {require('../images/user.png')} />
-                                <div className="d-flex flex-column">
-                                    <div style={{fontWeight: 'bold'}}>Name</div>
-                                    <div className="d-flex">
-                                    {
-                                        [...Array(5).keys()].map(i => (<i className="fa fa-star text-success pr-1" aria-hidden="true"></i>))
-                                    }   
+                            {
+                                rating && rating.map((item, index) => (
+                                    <div key={index} className="d-flex">
+                                        <img className="small-user-avatar" style={{width:'5rem', height:'5rem'}} src = {item.avatar ? item.avatar : require('../images/user.png')} />
+                                        <div className="d-flex flex-column">
+                                            <div style={{fontWeight: 'bold'}}>{item.userName}</div>
+                                            <div className="d-flex">
+                                            {
+                                                [...Array(item.stars).keys()].map(i => (<i key={i} className="fa fa-star text-success pr-1" aria-hidden="true"></i>))
+                                            }
+                                            <TimeAgo
+                                                className='text-muted ml-2'
+                                                datetime={new Date((item.time.seconds+(item.time.nanoseconds)*0.00000001)*1000)}
+                                            />   
+                                            </div>
+                                            <p>{item.comment}</p>
+                                        </div>
                                     </div>
-                                    <p>Mình mua màu bạc. Máy quá đẹp và sang trọng, thiết kế vừa tay, cầm rết chắc tay. Giá giảm 8/3 quá ngon và tiết kiệm cho 1 chiếc máy xịn xò như này. Camera phải nói là siêu xịn, mê nhất là camera và con chip. Nói chung iPhone thì quá tuyệt vời không còn gì để nói. 10</p>
-                                </div>
-                            </div>
+                                ))
+                            }
                         </div>
                         </div>
                         </div>
