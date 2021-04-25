@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import logo from '../images/mobile.svg'
 import { Link } from 'react-router-dom'
-import { auth } from '../Config/Config'
+import { auth, db } from '../Config/Config'
 import { Icon } from 'react-icons-kit'
 import { cart } from 'react-icons-kit/entypo/cart'
 import { useHistory } from 'react-router-dom'
@@ -15,7 +15,7 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
     const { totalQty, dispatch} = useContext(CartContext);
     const { products, userProducts } = useContext(ProductsContext);
     const [isToggle, setIsToggle] = useState(false);
-    const {unRead, listMessageUnRead} = useContext(ChatContext)
+    const {unRead, listMessageUnRead, getData} = useContext(ChatContext)
     useEffect(() => {
         dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});
     }, [userId, products.length, userProducts.length, user, listMessageUnRead.length, unRead])
@@ -25,6 +25,22 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
         auth.signOut().then(() => {
             history.push('/login');
         })
+    }
+
+    const updateCheckMessage = (e, m) => {
+        e.preventDefault();
+        console.log(m);
+        db.collection('ChatHub').where('toUserId', '==', m.userId).get()
+        .then(snapshot => {
+            snapshot.forEach(m => {
+                db.collection('ChatHub').doc(m.id).update({
+                    isRead: true
+                }).then(()=>{
+                    getData();
+                })
+                // console.log(m.id)
+            })
+        });
     }
 
     return (
@@ -58,7 +74,7 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
                     if(isAdmin && !m.isAdmin){
                         return (
                             <div key = {i} className="noty-item">
-                                <div className="noty-item-content">
+                                <div className="noty-item-content" onClick = {(e) => updateCheckMessage(e, m)}>
                                     <Link to = {`/chat/${m.userId}`} className="noty-content">
                                         {m.formName} sent you a message
                                     </Link>
@@ -70,16 +86,6 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
                         )
                     }
                 }): null}
-                {/* <div className="noty-item">
-                    <div className="noty-item-content">
-                        <Link to = {`/chat/${userId}`} className="noty-content">
-                            Admin sent you a message
-                        </Link>
-                        <div className="noty-checked">
-
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </div>
     )
