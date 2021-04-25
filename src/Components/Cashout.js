@@ -8,7 +8,7 @@ export const Cashout = (props) => {
 
     const history = useHistory();
 
-    const { totalPrice, totalQty, dispatch } = useContext(CartContext);
+    const { shoppingCart, totalPrice, totalQty, dispatch } = useContext(CartContext);
 
     // defining state
     const [name, setName] = useState('');
@@ -44,7 +44,9 @@ export const Cashout = (props) => {
                     BuyerCell: cell,
                     BuyerAddress: address,
                     BuyerPayment: totalPrice,
-                    BuyerQuantity: totalQty
+                    BuyerQuantity: totalQty,
+                    products: shoppingCart.map(item => item.ProductID),
+                    status: 'confirmed'
                 }).then(() => {
                     setCell('');
                     setAddress('');
