@@ -1,15 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
 import { auth, db } from "../Config/Config";
-import firebase from 'firebase'
+import firebase from "firebase";
 import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { useHistory } from "react-router-dom";
 import { ProductsContext } from "../Global/ProductsContext";
 import Rating from "@material-ui/lab/Rating";
-import Popover from "@material-ui/core/Popover";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Collapse,
+  Paper,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Popover,
+  Stepper,
+  Step,
+  StepLabel,
+  Divider,
+} from "@material-ui/core";
 
 function Orders({ userId, user, avatar }) {
   const [orders, setOrders] = useState([]);
@@ -17,6 +25,25 @@ function Orders({ userId, user, avatar }) {
   const [comment, setComment] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [openedPopoverId, setOpenedPopoverId] = useState(-1);
+  const [checked, setChecked] = useState([]);
+
+  const steps = [
+    'Confirmed',
+    'Shipped',
+    'Delivered',
+  ];
+
+  const stepActive = {
+    confirmed: 1, 
+    shipped: 2, 
+    delivered: 3, 
+  }
+
+  const handleOrderDetail = (id) => {
+    let temp = checked;
+    temp = temp.map(item => item.id === id ? ({id:id, checked:!item.checked}): item)
+    setChecked(temp);
+  };
 
   const handleClickRating = (event, id) => {
     setOpenedPopoverId(id);
@@ -29,30 +56,34 @@ function Orders({ userId, user, avatar }) {
   };
 
   const handleSendComment = (products) => {
-    console.log(products)
-    products.forEach(async item => {
-        const temp = await db.collection("Products").doc(item).get();
-        db.collection("Products").doc(item).set(
-            {
-                rating: [...temp.data().rating, {
-                    avatar: avatar ? avatar : '',
-                    comment,
-                    stars,
-                    time: firebase.firestore.Timestamp.fromDate(new Date()),
-                    userId,
-                    userName: user
-                }]
-            }, {merge: true}
-        ).then(() => console.log('Successfully written'))
-        .catch(err => console.log(err));
-    })
+    console.log(products);
+    products.forEach(async (item) => {
+      const temp = await db.collection("Products").doc(item).get();
+      db.collection("Products")
+        .doc(item)
+        .set(
+          {
+            rating: [
+              ...temp.data().rating,
+              {
+                avatar: avatar ? avatar : "",
+                comment,
+                stars,
+                time: firebase.firestore.Timestamp.fromDate(new Date()),
+                userId,
+                userName: user,
+              },
+            ],
+          },
+          { merge: true }
+        )
+        .then(() => console.log("Successfully written"))
+        .catch((err) => console.log(err));
+    });
     handleCloseRating();
-    setComment('');
+    setComment("");
     setStars(1);
-  }
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  };
 
   const getDoc = async () => {
     const doc = await db.collection("Buyer-info " + userId).get();
@@ -61,6 +92,11 @@ function Orders({ userId, user, avatar }) {
       data: doc.data(),
     }));
     setOrders([...snapshot]);
+    const collapses = snapshot.map(item => ({
+        id: item.id,
+        checked: false
+    }));
+    setChecked(collapses);
   };
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -134,7 +170,9 @@ function Orders({ userId, user, avatar }) {
                     Order canceled
                   </h6>
                   <div>
-                  Investors may cancel standing orders, such as a limit or stop order, for any reason so long as the order has not been filled yet.
+                    Investors may cancel standing orders, such as a limit or
+                    stop order, for any reason so long as the order has not been
+                    filled yet.
                   </div>
                 </div>
               </div>
@@ -167,10 +205,27 @@ function Orders({ userId, user, avatar }) {
                     />
                     <OrderComponent title={"Status"} value={item.data.status} />
                     <i
+                      onClick={() => handleOrderDetail(item.id)}
                       className="fa fa-angle-right"
-                      style={{ fontSize: "30px" }}
+                      style={{
+                        fontSize: "30px",
+                        transition: "transform .4s ease-in-out",
+                        transform: checked.length > 0 && checked.filter(element => element.id === item.id)[0].checked ? "rotate(90deg)" : "rotate(0deg)",
+                      }}
                     ></i>
                   </div>
+                  <Collapse in={checked.length > 0 && checked.filter(element => element.id === item.id)[0].checked}>
+                    <Paper elevation={2} className={""}>
+                      <Stepper activeStep={stepActive[item.data.status]} alternativeLabel>
+                        {steps.map((label) => (
+                          <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                          </Step>
+                        ))}
+                      </Stepper>
+                      <Divider />
+                    </Paper>
+                  </Collapse>
                   {item.data.status === "delivered" && (
                     <div className="border-top p-2 bg-light">
                       <button
@@ -198,8 +253,11 @@ function Orders({ userId, user, avatar }) {
                           horizontal: "left",
                         }}
                       >
-                        <div className="p-3" style={{ }}>
-                          <div className='d-flex flex-column justify-content-center align-items-center' style={{fontWeight:'bold'}}>
+                        <div className="p-3" style={{}}>
+                          <div
+                            className="d-flex flex-column justify-content-center align-items-center"
+                            style={{ fontWeight: "bold" }}
+                          >
                             How many stars do you rate this product?
                             <Rating
                               name="simple-controlled"
@@ -218,18 +276,20 @@ function Orders({ userId, user, avatar }) {
                             onChange={(e) => setComment(e.target.value)}
                             variant="filled"
                             InputProps={{
-                                endAdornment: (
-                                  <InputAdornment position='end'>
-                                    <IconButton
-                                        style={{outline:'none'}}
-                                      aria-label='toggle password visibility'
-                                      onClick={() => handleSendComment(item.data.products)}
-                                      >
-                                          Send
-                                    </IconButton>
-                                  </InputAdornment>
-                                ),
-                              }}
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    style={{ outline: "none" }}
+                                    aria-label="toggle password visibility"
+                                    onClick={() =>
+                                      handleSendComment(item.data.products)
+                                    }
+                                  >
+                                    Send
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </div>
                       </Popover>
