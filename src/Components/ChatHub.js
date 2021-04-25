@@ -67,7 +67,7 @@ export const ChatHub = (props) => {
                             )
                         {/* if(!m.isAdmin) */}
                         }
-                        else if((!m.isAdmin && m.userId === userId)  || (m.isAdmin && m.toUserId === adminId && m.userId === props.userId)){ 
+                        else if((!m.isAdmin && m.userId === userId)  || (m.isAdmin && m.userId === adminId && m.toUserId === props.userId)){ 
                             return(
                                 <div className="position-user-message" key = {i}>
                                     <div className="position-user-avatar">
