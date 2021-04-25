@@ -27,9 +27,12 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
         })
     }
 
+    const goToOrders = () => {
+        history.push('/orders')
+    }
+
     const updateCheckMessage = (e, m) => {
         e.preventDefault();
-        console.log(m);
         db.collection('ChatHub').where('toUserId', '==', m.userId).get()
         .then(snapshot => {
             snapshot.forEach(m => {
@@ -67,6 +70,7 @@ export const Navbar = ({ user, userId, avatar, isAdmin }) => {
                 <span style = {{position: 'relative'}}><Link to="/cartproducts" className='navlink'><Icon icon={cart} /></Link>
                 <span className='no-of-products'>{totalQty}</span>
                 </span>
+                <span style = {{marginLeft: '10px'}}><button onClick = {goToOrders} type="button" className="btn btn-outline-dark">Orders <i className="fa fa-money" aria-hidden="true"></i></button></span>
                 <span><button type="button" className="btn btn-outline-danger" onClick={handleLogout}>Logout</button></span>
             </div>}
             <div className="noty-panel"  hidden = {!isToggle}>
