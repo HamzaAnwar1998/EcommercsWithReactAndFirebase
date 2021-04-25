@@ -10,11 +10,14 @@ import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/Config'
 import { displayNumber } from '../Common';
 import { ProductsContext } from '../Global/ProductsContext';
+import { ChatContext } from '../Global/ChatContext';
 
-export const Cart = ({ user, userId, avatar }) => {
+export const Cart = ({ user, userId, avatar, isAdmin }) => {
 
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
     const { products, userProducts } = useContext(ProductsContext);
+    const {unRead, listMessageUnRead} = useContext(ChatContext)
+
 
     const history = useHistory();
 
@@ -29,7 +32,7 @@ export const Cart = ({ user, userId, avatar }) => {
 
     return (
         <>
-            <Navbar user={user} userId = {userId} avatar = {avatar}/>
+            <Navbar user={user} userId = {userId} avatar = {avatar} isAdmin={isAdmin}/>
             <>
                 {shoppingCart.length !== 0 && <h1>Cart</h1>}
                 <div className='cart-container'>
@@ -88,7 +91,12 @@ export const Cart = ({ user, userId, avatar }) => {
                         </button>
                         </Link>
                     </div>}
-
+                    {
+                        !isAdmin? 
+                            <div className="nav-item active">
+                                <Link className="nav-link btn btn-warning chat"  to = {`/chat/a31b82e2-a571-11eb-bcbc-0242ac130002`} style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-commenting-o" aria-hidden="true"></i></Link>
+                            </div>
+                        :null}
                 </div>
             </>
         </>

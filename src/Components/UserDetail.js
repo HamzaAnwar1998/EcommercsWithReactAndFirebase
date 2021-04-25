@@ -73,7 +73,7 @@ export const UserDetail = (props) => {
     return (
         <div className = "login-wrapper">
             <div className="login" style = {{flex : 1}}>
-                <Navbar user = {props.user} userId = {props.userId} avatar = {avatar} />
+                <Navbar user = {props.user} userId = {props.userId} avatar = {avatar} isAdmin = {props.isAdmin}/>
             </div>
             <div className='container user-container' style ={{flex : 10}}>
                 <br />

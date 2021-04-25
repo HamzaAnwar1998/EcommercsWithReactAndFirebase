@@ -25,7 +25,6 @@ export const Products = ({userId, isAdmin}) => {
     }
 
     useEffect(()=> {
-        console.log(isAdmin)
         products.map(p => {
             
             const checkAdd  = userProducts.find(up => (up.productId === p.ProductID && userId === up.userId))
@@ -134,6 +133,12 @@ export const Products = ({userId, isAdmin}) => {
             {isAdmin? 
                 <div className="nav-item active">
                     <Link className="nav-link btn btn-info add-product"  to = '/addproducts' style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-plus" aria-hidden="true"></i></Link>
+                </div>
+            :null}
+            {
+                !isAdmin? 
+                <div className="nav-item active">
+                    <Link className="nav-link btn btn-warning chat"  to = {`/chat/a31b82e2-a571-11eb-bcbc-0242ac130002`} style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-commenting-o" aria-hidden="true"></i></Link>
                 </div>
             :null}
         </>

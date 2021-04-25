@@ -15,7 +15,6 @@ export const Home = ({ user, userId, avatar, isAdmin }) => {
                 history.push('/login');
             }
         })
-        console.log(avatar)
     })
 
     return (

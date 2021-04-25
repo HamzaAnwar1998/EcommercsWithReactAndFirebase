@@ -113,7 +113,7 @@ export const ProductDetail = (props) => {
     return (
         <div className = "login-wrapper">
             <div className="login" style = {{flex : 1}}>
-                <Navbar user = {props.user}  userId = {props.userId} avatar = {props.avatar}/>
+                <Navbar user = {props.user}  userId = {props.userId} avatar = {props.avatar} isAdmin = {props.isAdmin}/>
             </div>
             <div className='container' style ={{flex : 10}}>
                 <br />
@@ -181,7 +181,7 @@ export const ProductDetail = (props) => {
     else return (
         <div className = "login-wrapper">
                 <div className="login" style = {{flex : 1}}>
-                    <Navbar user = {props.user} />
+                    <Navbar user = {props.user}   userId = {props.userId} avatar = {props.avatar} isAdmin = {props.isAdmin}/>
                 </div>
                 <div className="container" style ={{flex : 10}}>
                     <div className="row">
