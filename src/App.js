@@ -14,6 +14,8 @@ import { AddProductType } from './Components/AddProductType';
 import { ProductDetail } from './Components/ProductDetail';
 import { UserDetail } from './Components/UserDetail';
 import { ChatHub } from './Components/ChatHub'
+import { ChatContextProvider} from './Global/ChatContext';
+// import { Accessory } from './Components/Accessory';
 export class App extends Component {
 
     state = {
@@ -67,35 +69,40 @@ export class App extends Component {
 
     render() {
         return (
-            <ProductsContextProvider>
-                <CartContextProvider>
-                    <BrowserRouter>
-                        <Switch>
-                            {/* home */}
-                            <Route exact path='/' component={() => <Home isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
-                            {/* signup */}
-                            <Route path="/signup" component={() => <Signup history = {this.state} user={this.state.user} />} />
-                            {/* login */}
-                            <Route path="/login" component={() => <Login history = {this.state} user={this.state.user}/>} />
-                            {/* cart products */}
-                            <Route path="/cartproducts" component={() => <Cart  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId = {this.state.userId} />} />
-                            {/* add products */}
-                            <Route path="/addproducts" component={() => <AddProducts  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
-                            {/* add product type */}
-                            <Route path="/addproduct-type" component={() => <AddProductType  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
-                            {/* cashout */}
-                            <Route path='/cashout' component={() => <Cashout  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
-                            {/* product detail */}
-                            <Route path="/product-detail/:productId" component={() => <ProductDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} /> } />
-                            {/* user detail */}
-                            <Route path="/user-detail/:userId" component={() => <UserDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
-                            {/* chat */}
-                            <Route path="/chat/:userId" component={() => <ChatHub  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
-                            <Route component={NotFound} />
-                        </Switch>
-                    </BrowserRouter>
-                </CartContextProvider>
-            </ProductsContextProvider>
+            <ChatContextProvider>
+
+                <ProductsContextProvider>
+                    <CartContextProvider>
+                        <BrowserRouter>
+                            <Switch>
+                                {/* home */}
+                                <Route exact path='/' component={() => <Home isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
+                                {/* signup */}
+                                <Route path="/signup" component={() => <Signup history = {this.state} user={this.state.user} />} />
+                                {/* login */}
+                                <Route path="/login" component={() => <Login history = {this.state} user={this.state.user}/>} />
+                                {/* cart products */}
+                                <Route path="/cartproducts" component={() => <Cart  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId = {this.state.userId} />} />
+                                {/* add products */}
+                                <Route path="/addproducts" component={() => <AddProducts  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
+                                {/* add product type */}
+                                <Route path="/addproduct-type" component={() => <AddProductType  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId}/>} />
+                                {/* cashout */}
+                                <Route path='/cashout' component={() => <Cashout  isAdmin = {this.state.isAdmin} avatar = {this.state.avatar} user={this.state.user} userId ={this.state.userId} />} />
+                                {/* product detail */}
+                                <Route path="/product-detail/:productId" component={() => <ProductDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} /> } />
+                                {/* user detail */}
+                                <Route path="/user-detail/:userId" component={() => <UserDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
+                                {/* chat */}
+                                <Route path="/chat/:userId" component={() => <ChatHub  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} reGetUser = {this.reGetUser}/> }/>
+                                {/* accessories */}
+                                {/* <Route path="/accessories" component={() => <Accessory  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} /> }/> */}
+                                <Route component={NotFound} />
+                            </Switch>
+                        </BrowserRouter>
+                    </CartContextProvider>
+                </ProductsContextProvider>
+            </ChatContextProvider>
         )
     }
 }
