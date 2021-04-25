@@ -25,7 +25,7 @@ export class ChatContextProvider extends React.Component {
                         .get().then((doc) => {
                             conversationPrev = [{
                                 messageId: change.doc.id,
-                                isAdmin: change.doc.data().isAdmin,
+                                isAdmin: change.doc.data().isAdmin  ,
                                 content: change.doc.data().content,
                                 userId: change.doc.data().userId,
                                 avatar: doc.data().avatar,

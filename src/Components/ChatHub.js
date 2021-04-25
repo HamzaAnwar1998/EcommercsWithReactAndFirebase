@@ -41,7 +41,6 @@ export const ChatHub = (props) => {
                 history.push('/login');
             }
         })
-        console.log(listMessageUnRead);
     }, [conversation.length, listMessageUnRead.length, unRead]);
 
     return (
