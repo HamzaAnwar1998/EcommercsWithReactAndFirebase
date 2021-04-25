@@ -14,6 +14,7 @@ import { AddProductType } from './Components/AddProductType';
 import { ProductDetail } from './Components/ProductDetail';
 import { UserDetail } from './Components/UserDetail';
 import { ChatHub } from './Components/ChatHub'
+import Orders from './Components/Orders'
 export class App extends Component {
 
     state = {
@@ -91,6 +92,8 @@ export class App extends Component {
                             <Route path="/user-detail/:userId" component={() => <UserDetail  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
                             {/* chat */}
                             <Route path="/chat/:userId" component={() => <ChatHub  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser}/> }/>
+                            {/* orders */}
+                            <Route path="/orders" component={() => <Orders  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser} avatar = {this.state.avatar}/> }/>
                             <Route component={NotFound} />
                         </Switch>
                     </BrowserRouter>
