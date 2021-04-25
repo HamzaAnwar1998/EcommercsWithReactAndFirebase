@@ -53,7 +53,7 @@ export const ChatHub = (props) => {
             <div className='container chat-container' style ={{flex : 15}}>
                 <div className="chat-content">
                     {conversation.map((m,i) => {
-                        if ((m.userId === props.userId && !props.isAdmin) || (m.userId === adminId && props.isAdmin)){
+                        if ((m.userId === props.userId && !props.isAdmin) || (m.userId === adminId && props.isAdmin && m.toUserId ===  userId)){
                             return(
                                 <div className="self-message" key = {i}>
                                     <div className="self-avatar">
@@ -67,7 +67,7 @@ export const ChatHub = (props) => {
                             )
                         {/* if(!m.isAdmin) */}
                         }
-                        else if((!props.isAdmin && m.userId === adminId)  || (props.isAdmin && m.toUserId === userId)){ 
+                        else if((!m.isAdmin && m.userId === userId)  || (m.isAdmin && m.toUserId === adminId && m.userId === props.userId)){ 
                             return(
                                 <div className="position-user-message" key = {i}>
                                     <div className="position-user-avatar">
