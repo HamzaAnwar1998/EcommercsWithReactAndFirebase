@@ -31,7 +31,8 @@ export class ChatContextProvider extends React.Component {
                                 avatar: doc.data().avatar,
                                 from: (new Date()).getTime(),
                                 isRead: change.doc.data().isRead,
-                                formName: doc.data().Name
+                                formName: doc.data().Name,
+                                toUserId: change.doc.data().toUserId
                             },...conversationPrev];
                             if(!change.doc.data().isRead){
                                 unRead += 1;
@@ -44,7 +45,8 @@ export class ChatContextProvider extends React.Component {
                                         avatar: doc.data().avatar,
                                         from: (new Date()).getTime(),
                                         isRead: change.doc.data().isRead,
-                                        formName: doc.data().Name
+                                        formName: doc.data().Name,
+                                        toUserId: change.doc.data().toUserId
                                     },...listMessageUnRead
                                 ];
                             }
@@ -64,7 +66,8 @@ export class ChatContextProvider extends React.Component {
                             avatar: change.doc.data().avatar,
                             from: (new Date()).getTime(),
                             isRead: change.doc.data().isRead,
-                            formName: 'Admin'
+                            formName: 'Admin',
+                            toUserId: change.doc.data().toUserId
                         },...conversationPrev];
                         if(!change.doc.data().isRead){
                             unRead += 1;
@@ -77,7 +80,8 @@ export class ChatContextProvider extends React.Component {
                                     avatar: change.doc.data().avatar,
                                     from: (new Date()).getTime(),
                                     isRead: change.doc.data().isRead,
-                                    formName: 'Admin'
+                                    formName: 'Admin',
+                                    toUserId: change.doc.data().toUserId
                                 },...listMessageUnRead
                             ];
                         }

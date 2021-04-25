@@ -28,9 +28,10 @@ export const ChatHub = (props) => {
             avatar : props.avatar ? props.avatar : '',
             content: messageContent,
             isAdmin: isAdmin,
-            userId: props.userId,
+            userId: isAdmin ? adminId : props.userId,
             from: (new Date()).getTime(),
-            isRead: false
+            isRead: false,
+            toUserId: userId
         })
         messageRef.current.value = '';
     }
@@ -41,6 +42,7 @@ export const ChatHub = (props) => {
                 history.push('/login');
             }
         })
+        console.log(conversation)
     }, [conversation.length, listMessageUnRead.length, unRead]);
 
     return (
@@ -51,7 +53,7 @@ export const ChatHub = (props) => {
             <div className='container chat-container' style ={{flex : 15}}>
                 <div className="chat-content">
                     {conversation.map((m,i) => {
-                        if ((m.userId !== userId && !m.isAdmin) || (userId !== adminId && m.isAdmin)){
+                        if ((m.userId === props.userId && !props.isAdmin) || (m.userId === adminId && props.isAdmin)){
                             return(
                                 <div className="self-message" key = {i}>
                                     <div className="self-avatar">
@@ -65,7 +67,7 @@ export const ChatHub = (props) => {
                             )
                         {/* if(!m.isAdmin) */}
                         }
-                        else { 
+                        else if((!props.isAdmin && m.userId === adminId)  || (props.isAdmin && m.toUserId === userId)){ 
                             return(
                                 <div className="position-user-message" key = {i}>
                                     <div className="position-user-avatar">
