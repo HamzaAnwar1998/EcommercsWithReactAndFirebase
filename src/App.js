@@ -14,6 +14,7 @@ import { AddProductType } from './Components/AddProductType';
 import { ProductDetail } from './Components/ProductDetail';
 import { UserDetail } from './Components/UserDetail';
 import { ChatHub } from './Components/ChatHub'
+import Orders from './Components/Orders'
 import { ChatContextProvider} from './Global/ChatContext';
 // import { Accessory } from './Components/Accessory';
 export class App extends Component {
@@ -97,6 +98,7 @@ export class App extends Component {
                                 <Route path="/chat/:userId" component={() => <ChatHub  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} reGetUser = {this.reGetUser}/> }/>
                                 {/* accessories */}
                                 {/* <Route path="/accessories" component={() => <Accessory  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} avatar = {this.state.avatar} /> }/> */}
+                                <Route path="/orders" component={() => <Orders  isAdmin = {this.state.isAdmin} history = {this.state} user={this.state.user} userId ={this.state.userId} reGetUser = {this.reGetUser} avatar = {this.state.avatar}/> }/>
                                 <Route component={NotFound} />
                             </Switch>
                         </BrowserRouter>
