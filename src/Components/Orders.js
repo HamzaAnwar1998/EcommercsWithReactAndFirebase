@@ -17,6 +17,8 @@ import {
   Step,
   StepLabel,
   Divider,
+  Container,
+  Grid,
 } from "@material-ui/core";
 
 function Orders({ userId, user, avatar }) {
@@ -27,21 +29,19 @@ function Orders({ userId, user, avatar }) {
   const [openedPopoverId, setOpenedPopoverId] = useState(-1);
   const [checked, setChecked] = useState([]);
 
-  const steps = [
-    'Confirmed',
-    'Shipped',
-    'Delivered',
-  ];
+  const steps = ["Confirmed", "Shipped", "Delivered"];
 
   const stepActive = {
-    confirmed: 1, 
-    shipped: 2, 
-    delivered: 3, 
-  }
+    confirmed: 1,
+    shipped: 2,
+    delivered: 3,
+  };
 
   const handleOrderDetail = (id) => {
     let temp = checked;
-    temp = temp.map(item => item.id === id ? ({id:id, checked:!item.checked}): item)
+    temp = temp.map((item) =>
+      item.id === id ? { id: id, checked: !item.checked } : item
+    );
     setChecked(temp);
   };
 
@@ -92,9 +92,9 @@ function Orders({ userId, user, avatar }) {
       data: doc.data(),
     }));
     setOrders([...snapshot]);
-    const collapses = snapshot.map(item => ({
-        id: item.id,
-        checked: false
+    const collapses = snapshot.map((item) => ({
+      id: item.id,
+      checked: false,
     }));
     setChecked(collapses);
   };
@@ -210,13 +210,27 @@ function Orders({ userId, user, avatar }) {
                       style={{
                         fontSize: "30px",
                         transition: "transform .4s ease-in-out",
-                        transform: checked.length > 0 && checked.filter(element => element.id === item.id)[0].checked ? "rotate(90deg)" : "rotate(0deg)",
+                        transform:
+                          checked.length > 0 &&
+                          checked.filter((element) => element.id === item.id)[0]
+                            .checked
+                            ? "rotate(90deg)"
+                            : "rotate(0deg)",
                       }}
                     ></i>
                   </div>
-                  <Collapse in={checked.length > 0 && checked.filter(element => element.id === item.id)[0].checked}>
+                  <Collapse
+                    in={
+                      checked.length > 0 &&
+                      checked.filter((element) => element.id === item.id)[0]
+                        .checked
+                    }
+                  >
                     <Paper elevation={2} className={""}>
-                      <Stepper activeStep={stepActive[item.data.status]} alternativeLabel>
+                      <Stepper
+                        activeStep={stepActive[item.data.status]}
+                        alternativeLabel
+                      >
                         {steps.map((label) => (
                           <Step key={label}>
                             <StepLabel>{label}</StepLabel>
@@ -224,6 +238,78 @@ function Orders({ userId, user, avatar }) {
                         ))}
                       </Stepper>
                       <Divider />
+                      <Container className="p-3">
+                        <Grid container spacing={3}>
+                          <Grid item xs={12} md={4}>
+                            <TextField
+                              id="standard-read-only-input"
+                              label={"Name"}
+                              defaultValue={item.data.BuyerName}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={8}>
+                            <TextField
+                              style={{ width: "100%" }}
+                              id="standard-read-only-input"
+                              label={"Email"}
+                              defaultValue={item.data.BuyerEmail}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={4}>
+                            <TextField
+                              id="standard-read-only-input"
+                              label={"Phone"}
+                              defaultValue={item.data.BuyerCell}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={8}>
+                            <TextField
+                              style={{ width: "100%" }}
+                              id="standard-read-only-input"
+                              label={"Address"}
+                              defaultValue={item.data.BuyerAddress}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Container>
+                      <Divider />
+                      <Container className="p-3">
+                        <Grid container spacing={2}>
+                          <Grid item xs={12} md={6}>
+                            <TextField
+                              id="standard-read-only-input"
+                              label={"Total Quantity"}
+                              defaultValue={item.data.BuyerQuantity}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={6}>
+                            <TextField
+                              id="standard-read-only-input"
+                              label={"Total Price"}
+                              defaultValue={item.data.BuyerPayment}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Container>
                     </Paper>
                   </Collapse>
                   {item.data.status === "delivered" && (
