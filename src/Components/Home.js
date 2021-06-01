@@ -4,7 +4,7 @@ import { Products } from './Products'
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/Config'
 
-export const Home = ({ user }) => {
+export const Home = ({ user, userId, avatar, isAdmin }) => {
 
     const history = useHistory();
 
@@ -18,9 +18,13 @@ export const Home = ({ user }) => {
     })
 
     return (
-        <div className='wrapper'>
-            <Navbar user={user} />
-            <Products />
+        <div className=' wrapper home-wrapper'>
+            <div className="home-item" style = {{flex : 1}}>
+                <Navbar user={user} userId = {userId} avatar = {avatar} isAdmin = {isAdmin}/>
+            </div>
+            <div className="home-item" style = {{flex : 15}}>
+                <Products userId = {userId} isAdmin = {isAdmin}/>
+            </div>
         </div>
     )
 }

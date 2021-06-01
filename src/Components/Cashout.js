@@ -44,7 +44,9 @@ export const Cashout = (props) => {
                     BuyerCell: cell,
                     BuyerAddress: address,
                     BuyerPayment: totalPrice,
-                    BuyerQuantity: totalQty
+                    BuyerQuantity: totalQty,
+                    products: shoppingCart.map(item => item.ProductID),
+                    status: 'confirmed'
                 }).then(() => {
                     setCell('');
                     setAddress('');
@@ -60,7 +62,7 @@ export const Cashout = (props) => {
 
     return (
         <>
-            <Navbar user={props.user} />
+            <Navbar user={props.user} userId = {props.userId} avatar = {props.avatar} />
             <div className='container'>
                 <br />
                 <h2>Cashout Details</h2>

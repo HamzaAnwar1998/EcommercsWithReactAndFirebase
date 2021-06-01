@@ -6,11 +6,33 @@ export const ProductsContext = createContext();
 export class ProductsContextProvider extends React.Component {
 
     state = {
-        products: []
+        products: [],
+        productTypes: [],
+        userProducts: [],
     }
 
     componentDidMount() {
 
+        this.deleteProduct = this.deleteProduct.bind(this);
+        this.getProducts = this.getProducts.bind(this);
+
+        const userProducts = this.state.userProducts;
+        db.collection('UserProduct').onSnapshot(snapshot => {
+            let changes = snapshot.docChanges();
+            changes.forEach(change => {
+                if (change.type === 'added') {
+                    userProducts.push({
+                        userProduct: change.doc.id,
+                        userId: change.doc.data().UserId,
+                        productId: change.doc.data().ProductId,
+                    })
+                }
+                this.setState({
+                    userProducts: userProducts
+                })
+            });
+        })
+        
         const prevProducts = this.state.products;
         db.collection('Products').onSnapshot(snapshot => {
             let changes = snapshot.docChanges();
@@ -20,7 +42,9 @@ export class ProductsContextProvider extends React.Component {
                         ProductID: change.doc.id,
                         ProductName: change.doc.data().ProductName,
                         ProductPrice: change.doc.data().ProductPrice,
-                        ProductImg: change.doc.data().ProductImg
+                        ProductImg: change.doc.data().ProductImg,
+                        ProductType: change.doc.data().ProductType,
+                        ProductSale: change.doc.data().ProductSale,
                     })
                 }
                 this.setState({
@@ -29,10 +53,71 @@ export class ProductsContextProvider extends React.Component {
             })
         })
 
+        const productTypes = this.state.productTypes;
+        db.collection('ProductType').onSnapshot(snapshot => {
+            let changes = snapshot.docChanges();
+            changes.forEach(change => {
+                if (change.type === 'added') {
+                    productTypes.push({
+                        Type: change.doc.data().Type,
+                    })
+                }
+                this.setState({
+                    productTypes: productTypes
+                })
+            })
+        })
     }
+
+    deleteProduct  = (p) => {
+        db.collection('Products').doc(p.ProductID).delete().then(() => {
+            const prevProducts = [];
+            db.collection('Products').onSnapshot(snapshot => {
+                let changes = snapshot.docChanges();
+                changes.forEach(change => {
+                    if (change.type === 'added') {
+                        prevProducts.push({
+                            ProductID: change.doc.id,
+                            ProductName: change.doc.data().ProductName,
+                            ProductPrice: change.doc.data().ProductPrice,
+                            ProductImg: change.doc.data().ProductImg,
+                            ProductType: change.doc.data().ProductType,
+                            ProductSale: change.doc.data().ProductSale,
+                        })
+                    }
+                    this.setState({
+                        products: prevProducts
+                    })
+                })
+            })
+        })
+    }
+
+    getProducts = () => {
+        const prevProducts = [];
+        db.collection('Products').onSnapshot(snapshot => {
+            let changes = snapshot.docChanges();
+            changes.forEach(change => {
+                if (change.type === 'added') {
+                    prevProducts.push({
+                        ProductID: change.doc.id,
+                        ProductName: change.doc.data().ProductName,
+                        ProductPrice: change.doc.data().ProductPrice,
+                        ProductImg: change.doc.data().ProductImg,
+                        ProductType: change.doc.data().ProductType,
+                        ProductSale: change.doc.data().ProductSale,
+                    })
+                }
+                this.setState({
+                    products: prevProducts
+                })
+            })
+        })
+    }
+
     render() {
         return (
-            <ProductsContext.Provider value={{ products: [...this.state.products] }}>
+            <ProductsContext.Provider  value={{ products: [...this.state.products], productTypes: [...this.state.productTypes], userProducts: [...this.state.userProducts], deleteProduct: this.deleteProduct, getProducts: this.getProducts }}>
                 {this.props.children}
             </ProductsContext.Provider>
         )

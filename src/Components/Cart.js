@@ -8,10 +8,16 @@ import { iosTrashOutline } from 'react-icons-kit/ionicons/iosTrashOutline'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/Config'
+import { displayNumber } from '../Common';
+import { ProductsContext } from '../Global/ProductsContext';
+import { ChatContext } from '../Global/ChatContext';
 
-export const Cart = ({ user }) => {
+export const Cart = ({ user, userId, avatar, isAdmin }) => {
 
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
+    const { products, userProducts } = useContext(ProductsContext);
+    const {unRead, listMessageUnRead} = useContext(ChatContext)
+
 
     const history = useHistory();
 
@@ -20,12 +26,13 @@ export const Cart = ({ user }) => {
             if (!user) {
                 history.push('/login');
             }
-        })
-    })
+        });
+        dispatch({type: 'SET_EXISTED_CART', products: products, userProducts: userProducts, userId : userId});
+    }, [products.length, userProducts.length, userId]);
 
     return (
         <>
-            <Navbar user={user} />
+            <Navbar user={user} userId = {userId} avatar = {avatar} isAdmin={isAdmin}/>
             <>
                 {shoppingCart.length !== 0 && <h1>Cart</h1>}
                 <div className='cart-container'>
@@ -35,7 +42,7 @@ export const Cart = ({ user }) => {
                             <div><Link to="/">Return to Home page</Link></div>
                         </>
                     }
-                    {shoppingCart && shoppingCart.map(cart => (
+                    {shoppingCart && shoppingCart.length > 0 ?  shoppingCart.map(cart => (
                         <div className='cart-card' key={cart.ProductID}>
 
                             <div className='cart-img'>
@@ -44,7 +51,7 @@ export const Cart = ({ user }) => {
 
                             <div className='cart-name'>{cart.ProductName}</div>
 
-                            <div className='cart-price-orignal'>Rs {cart.ProductPrice}.00</div>
+                            <div className='cart-price-orignal'>{displayNumber(cart.ProductPrice)} VNĐ</div>
 
                             <div className='inc' onClick={() => dispatch({ type: 'INC', id: cart.ProductID, cart })}>
                                 <Icon icon={ic_add} size={24} />
@@ -57,14 +64,14 @@ export const Cart = ({ user }) => {
                             </div>
 
                             <div className='cart-price'>
-                                Rs {cart.TotalProductPrice}.00
+                                {displayNumber(cart.TotalProductPrice)} VNĐ
                             </div>
 
-                            <button className='delete-btn' onClick={() => dispatch({ type: 'DELETE', id: cart.ProductID, cart })}>
+                            <button className='delete-btn' onClick={() => dispatch({ type: 'DELETE', id: cart.ProductID, cart, userId: userId })}>
                                 <Icon icon={iosTrashOutline} size={24} />
                             </button>
                         </div>
-                    ))
+                    )) : null
                     }
                     {shoppingCart.length > 0 && <div className='cart-summary'>
                         <div className='cart-summary-heading'>
@@ -79,11 +86,17 @@ export const Cart = ({ user }) => {
                             <span>{totalQty}</span>
                         </div>
                         <Link to='cashout' className='cashout-link'>
-                            <button className='btn btn-success btn-md' style={{ marginTop: 5 + 'px' }}>
+                            <button className='btn btn-outline-success btn-md' style={{ marginTop: 5 + 'px' }}>
                                 Cash on delivery
                         </button>
                         </Link>
                     </div>}
+                    {
+                        !isAdmin? 
+                            <div className="nav-item active">
+                                <Link className="nav-link btn btn-warning chat"  to = {`/chat/a31b82e2-a571-11eb-bcbc-0242ac130002`} style = {{color: 'white', marginRight: '15px'}}><i className="fa fa-commenting-o" aria-hidden="true"></i></Link>
+                            </div>
+                        :null}
                 </div>
             </>
         </>
